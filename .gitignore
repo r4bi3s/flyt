@@ -8,3 +8,4 @@ local.properties
 artifacts/
 __pycache__/
 test/
+dist/

@@ -11,15 +11,25 @@ android {
         applicationId = "no.heimflyt.launcher"
         minSdk = 26
         targetSdk = 36
-        versionCode = 27
-        versionName = "0.1-krets-theme-exp"
+        versionCode = 28
+        versionName = "0.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        // Release outputs are unsigned on purpose: keys never enter the Gradle build. See RELEASING.md.
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+        }
     }
     buildFeatures { compose = true }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    // Google-encrypted dependency metadata belongs in the Play bundle only, not in the GitHub APK.
+    dependenciesInfo { includeInApk = false; includeInBundle = true }
     lint { abortOnError = true }
     testOptions { unitTests.isIncludeAndroidResources = true }
 }
