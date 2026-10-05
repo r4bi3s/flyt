@@ -199,7 +199,7 @@ object ZipInventory {
                 else -> { backgrounds += PlannedFile(path, name, size); accepted += size }
             }
         }
-        if (backgrounds.isEmpty()) notes += "No backgrounds. Krets's own grounds will be used."
+        if (backgrounds.isEmpty()) notes += "No backgrounds. Flyt's own grounds will be used."
         val used = setOfNotNull(colors?.let { "colors.toml" }, alacritty?.let { "alacritty.toml" }, preview?.name, "light.mode") + backgrounds.map { "backgrounds/${it.name}" }
         val ignored = (underRoot.filter { it !in used && it != license } + scan.names.filterNot { it.startsWith(root) } + scan.unsafe)
             .groupBy { kindOf(it) }

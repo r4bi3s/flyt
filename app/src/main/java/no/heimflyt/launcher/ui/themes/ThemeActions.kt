@@ -133,7 +133,7 @@ fun ExportAction(app: HeimflytApplication, entry: ThemeEntry, record: LoadedReco
             status(if (ok) "Saved ${OmarchyExport.directory(record.record.name)}.zip." else "Couldn't export the theme.")
         }
     }
-    HRow("Share theme", subtitle = "an Omarchy theme (.zip) for Omarchy or another Krets", compact = true, onClick = {
+    HRow("Share theme", subtitle = "an Omarchy theme (.zip) for Omarchy or another Flyt", compact = true, onClick = {
         scope.launch {
             val file = withContext(Dispatchers.IO) {
                 runCatching {
@@ -170,7 +170,7 @@ fun AndroidWallpaperAction(app: HeimflytApplication, record: LoadedRecord, backg
     val scope = rememberCoroutineScope()
     var open by remember { mutableStateOf(false) }
     var working by remember { mutableStateOf(false) }
-    HRow("Android wallpaper · experiment", subtitle = "also use this image outside Krets", compact = true, onClick = { open = true },
+    HRow("Android wallpaper · experiment", subtitle = "also use this image outside Flyt", compact = true, onClick = { open = true },
         trailing = { Glyph(R.drawable.glyph_chevron, c.inkMuted, 18.dp) })
     if (!open) return
     var follow by remember { mutableStateOf(no.heimflyt.launcher.theme.AndroidWallpaper.follow(context) != 0) }
@@ -180,11 +180,11 @@ fun AndroidWallpaperAction(app: HeimflytApplication, record: LoadedRecord, backg
             val result = withContext(Dispatchers.IO) {
                 no.heimflyt.launcher.theme.AndroidWallpaper.set(context, app.themes.store, record, background.index, framing, which)
             }
-            // "Follow Krets" is remembered only when the owner ticked it and the first set succeeded.
+            // "Follow Flyt" is remembered only when the owner ticked it and the first set succeeded.
             no.heimflyt.launcher.theme.AndroidWallpaper.setFollow(context, if (follow && result == no.heimflyt.launcher.theme.AndroidWallpaper.Result.Set) which else 0)
             working = false; open = false
             status(when (result) {
-                no.heimflyt.launcher.theme.AndroidWallpaper.Result.Set -> "Android $label wallpaper set" + (if (follow) ", and it will follow Krets's images." else ".") +
+                no.heimflyt.launcher.theme.AndroidWallpaper.Result.Set -> "Android $label wallpaper set" + (if (follow) ", and it will follow Flyt's images." else ".") +
                     " Your previous wallpaper can be chosen again in Android's wallpaper settings."
                 no.heimflyt.launcher.theme.AndroidWallpaper.Result.NotAllowed -> "Android doesn't allow apps to set the wallpaper on this phone."
                 no.heimflyt.launcher.theme.AndroidWallpaper.Result.Failed -> "Couldn't set the Android wallpaper. Nothing else changed."
@@ -194,15 +194,15 @@ fun AndroidWallpaperAction(app: HeimflytApplication, record: LoadedRecord, backg
     HSheet({ if (!working) open = false }) {
         Text("Use this image as Android's wallpaper?", style = t.type.title)
         Spacer(Modifier.height(Space.s))
-        Text("This replaces your current Android wallpaper. Krets can't restore it for you. Android may also change its system colours to match. " +
+        Text("This replaces your current Android wallpaper. Flyt can't restore it for you. Android may also change its system colours to match. " +
             "Your lock screen clock, notifications and security stay Android's.", style = t.type.body)
-        ToggleRow("Follow Krets", follow, "Change it again whenever Krets's image changes: when a theme is applied and when images rotate.") { follow = it }
+        ToggleRow("Follow Flyt", follow, "Change it again whenever Flyt's image changes: when a theme is applied and when images rotate.") { follow = it }
         Spacer(Modifier.height(Space.l))
         if (working) Text("Setting wallpaper…", style = t.type.meta) else {
             Row {
                 QuietButton("Cancel") { open = false }
                 if (no.heimflyt.launcher.theme.AndroidWallpaper.follow(context) != 0) QuietButton("Stop following") {
-                    no.heimflyt.launcher.theme.AndroidWallpaper.setFollow(context, 0); open = false; status("Android's wallpaper no longer follows Krets.")
+                    no.heimflyt.launcher.theme.AndroidWallpaper.setFollow(context, 0); open = false; status("Android's wallpaper no longer follows Flyt.")
                 }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(Space.s)) {

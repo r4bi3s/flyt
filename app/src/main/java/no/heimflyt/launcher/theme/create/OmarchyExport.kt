@@ -26,20 +26,20 @@ object OmarchyExport {
     fun readme(name: String, palette: OmarchyPalette, selectedDesktopImages: Set<Int> = emptySet()): String = """
         # $name
 
-        An Omarchy theme exported with Krets.
+        An Omarchy theme exported with Flyt.
 
         - `colors.toml`: the semantic palette (${if (palette.light) "light" else "dark"}). Omarchy generates every app's colours from it.
         - `backgrounds/`: ${if (selectedDesktopImages.isEmpty()) "a desktop crop of each photo around the part you chose" else "desktop backgrounds, including owner-selected wide images for slots ${selectedDesktopImages.sorted().map { it + 1 }.joinToString()}"} (Omarchy rotates through them).
         - `preview.png`: a preview card.
 
-        The exported backgrounds are re-encoded pixels without camera metadata. Keep your editable theme in Krets;
+        The exported backgrounds are re-encoded pixels without camera metadata. Keep your editable theme in Flyt;
         this Omarchy package does not contain the source photos.
-        ${if (selectedDesktopImages.isNotEmpty()) "Selected desktop images may have been made outside Krets. Check their provenance and rights before publishing this theme." else ""}
+        ${if (selectedDesktopImages.isNotEmpty()) "Selected desktop images may have been made outside Flyt. Check their provenance and rights before publishing this theme." else ""}
 
         Install on Omarchy: put this folder in `~/.config/omarchy/themes/` (or publish it as a Git repository and use
         Omarchy's theme install with its URL), then select "${name}" in Omarchy's theme picker.
 
-        Install on Krets: Tune → Look → Themes → Install a theme, from this .zip or its GitHub URL.
+        Install on Flyt: Tune → Look → Themes → Install a theme, from this .zip or its GitHub URL.
     """.trimIndent() + "\n"
 
     /**

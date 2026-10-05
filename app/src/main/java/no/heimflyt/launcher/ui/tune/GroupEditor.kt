@@ -87,7 +87,7 @@ fun GroupEditor(direction: Int, current: HomeAction, tuning: TuningParams, app: 
                         Text(if (mode == TagRadialMode.SMALL)
                             "Tags with up to four items show them all automatically, most used from left to right. Larger tags open the full list; choose Most used to show their top four."
                             else "The four most used apps or actions in this tag fill the radial from left to right.", style = t.type.caption)
-                        Text("Counts come from successful opens in Krets. Ties keep their places. Fixed choices are saved for when you switch back.", style = t.type.caption)
+                        Text("Counts come from successful opens in Flyt. Ties keep their places. Fixed choices are saved for when you switch back.", style = t.type.caption)
                         val saved = app.settings.settings.collectAsStateWithLifecycle().value
                         val members = catalog.apps.filter { tag in app.tags.tags(it.key) }.map {
                             HomeAction.App(it.info.componentName.flattenToString(), it.serial, it.label)

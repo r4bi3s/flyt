@@ -144,7 +144,7 @@ class GitHubSource(private val http: HttpsGet, private val userAgent: String) {
             s.check()
             val n = input.read(buf); if (n < 0) break
             total += n
-            if (total > cap) throw FetchException("A theme file is larger than Krets allows. Nothing was installed.")
+            if (total > cap) throw FetchException("A theme file is larger than Flyt allows. Nothing was installed.")
             out.write(buf, 0, n)
         }
         return out.toByteArray()

@@ -273,7 +273,7 @@ object ExportImages {
         keys.forEachIndexed { i, k -> c.drawRect(RectF(i * sw, h - 160f, (i + 1) * sw, h - 100f), Paint().apply { color = col(k) }) }
         c.drawRect(0f, h - 100f, w.toFloat(), h.toFloat(), Paint().apply { color = col("background") })
         c.drawText(name, 48f, h - 34f, Paint(Paint.ANTI_ALIAS_FLAG).apply { color = col("foreground"); textSize = 48f; typeface = Typeface.DEFAULT })
-        c.drawText("made with Krets", w - 48f, h - 38f, Paint(Paint.ANTI_ALIAS_FLAG).apply { color = col("accent"); textSize = 30f; textAlign = Paint.Align.RIGHT; typeface = Typeface.MONOSPACE })
+        c.drawText("made with Flyt", w - 48f, h - 38f, Paint(Paint.ANTI_ALIAS_FLAG).apply { color = col("accent"); textSize = 30f; textAlign = Paint.Align.RIGHT; typeface = Typeface.MONOSPACE })
         return ByteArrayOutputStream().also { out.compress(Bitmap.CompressFormat.PNG, 100, it) }.toByteArray().also { out.recycle() }
     }
 

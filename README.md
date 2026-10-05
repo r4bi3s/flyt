@@ -1,6 +1,6 @@
-# Krets
+# Flyt
 
-Krets is a calm, one-handed Android launcher. **Fast by default. Quiet when idle. Nothing between intent and action.**
+Flyt is a calm, one-handed Android launcher. **Fast by default. Quiet when idle. Nothing between intent and action.**
 
 From Home there are three ways forward:
 
@@ -8,9 +8,9 @@ From Home there are three ways forward:
 - **Search** — find an app, contact, action or app shortcut by typing.
 - **Apps** — a predictable app list with local, overlapping tags.
 
-Radial geometry, handedness and bindings adapt to your hand. Themes can be picked from the bundled palettes, created from your own photos, imported from a ZIP or installed from an [Omarchy](https://omarchy.org) theme on GitHub when you ask for it.
+Radial geometry, handedness and bindings adapt to your hand. Themes can be picked from the bundled palettes and the default Krets theme, created from your own photos, imported from a ZIP or installed from an [Omarchy](https://omarchy.org) theme on GitHub when you ask for it.
 
-Krets has no account, ads or analytics, and no background service. Network access is used only when you install a theme from a GitHub link (HTTPS, fixed hosts). Contacts are read only after you enable contact results.
+Flyt has no account, ads or analytics, and no background service. Network access is used only when you install a theme from a GitHub link (HTTPS, fixed hosts). Contacts are read only after you enable contact results.
 
 ## Build
 
@@ -26,6 +26,6 @@ The debug APK is `app/build/outputs/apk/debug/app-debug.apk`. `assembleDebug` al
 
 Copyright (C) 2026 Heimlager.
 
-Krets is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. It is distributed WITHOUT ANY WARRANTY; see [LICENSE](LICENSE). SPDX-License-Identifier: `GPL-3.0-or-later`.
+Flyt is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. It is distributed WITHOUT ANY WARRANTY; see [LICENSE](LICENSE). SPDX-License-Identifier: `GPL-3.0-or-later`.
 
 Bundled third-party theme palettes keep their own MIT licenses; see [the theme notice](app/src/main/assets/themes/NOTICE.txt). The license covers the code and does not grant rights to present a modified build as the official app or to use its name and icon for that purpose.

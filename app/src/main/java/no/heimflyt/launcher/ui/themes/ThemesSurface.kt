@@ -297,7 +297,7 @@ fun ThemesGallery(app: HeimflytApplication, onOpen: (String) -> Unit, onCreate: 
     val session = remember { mutableStateOf<ThemeNetworkSession?>(null) }
     fun stopAll() { cancelFlag.value.set(true); session.value?.cancel(); session.value = null }
     val zip = remember { ZipImport(app.themes.store, context.contentResolver) }
-    val github = remember { GitHubImport(app.themes.store, AndroidThemeFiles, PlatformHttps(), "Krets/${versionOf(context)}") }
+    val github = remember { GitHubImport(app.themes.store, AndroidThemeFiles, PlatformHttps(), "Flyt/${versionOf(context)}") }
     // Leaving Themes, HOME (which leaves the route) and onStop stop any work; nothing restarts on resume.
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     DisposableEffect(lifecycle) {
@@ -608,8 +608,8 @@ private fun RemoveAction(app: HeimflytApplication, entry: ThemeEntry, sig: ZoneS
         val active = activeGen?.choice?.recordId == entry.id
         Text("$verb ${entry.name}?", style = t.type.title)
         Spacer(Modifier.height(Space.s))
-        Text((if (active) "Krets will switch to the default Krets theme. " else "") +
-            (if (entry.created) "Your photo in the gallery is not affected." else "The theme's files will be deleted from Krets."), style = t.type.body)
+        Text((if (active) "Flyt will switch to the default Krets theme. " else "") +
+            (if (entry.created) "Your photo in the gallery is not affected." else "The theme's files will be deleted from Flyt."), style = t.type.body)
         message?.let { Spacer(Modifier.height(Space.s)); Text(it, style = t.type.body.copy(color = c.dangerInk)) }
         Spacer(Modifier.height(Space.l))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
@@ -727,7 +727,7 @@ private fun InstallSheet(state: InstallState, sig: ZoneSignature?, onCancel: () 
                     }
                     if (sig != null) ThemedPreview(tokens) { MiniHome(sig, null, PreviewMode.RADIAL, Modifier.width(72.dp)) }
                 }
-                SectionLabel("Krets will use")
+                SectionLabel("Flyt will use")
                 Text(if (r.source == PaletteSource.ALACRITTY_TOML) "palette from alacritty.toml" else "colors.toml", style = t.type.meta)
                 Text("${r.backgroundCount} background${if (r.backgroundCount == 1) "" else "s"} · ${mb(r.backgroundBytes)}", style = t.type.meta)
                 if (r.hasPreview) Text("preview.png", style = t.type.meta)

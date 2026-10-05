@@ -80,7 +80,7 @@ object HopValidator {
         if (!ok) throw FetchException(BLOCKED)
         return uri.toASCIIString()
     }
-    const val BLOCKED = "GitHub sent an unexpected address, so Krets stopped. Nothing was installed."
+    const val BLOCKED = "GitHub sent an unexpected address, so Flyt stopped. Nothing was installed."
 }
 
 object GitBlob {
@@ -137,7 +137,7 @@ object InstallPlanner {
                 else -> { chosen += e; accepted += e.size }
             }
         }
-        if (chosen.isEmpty()) notes += "No backgrounds. Krets's own grounds will be used."
+        if (chosen.isEmpty()) notes += "No backgrounds. Flyt's own grounds will be used."
         val used = setOfNotNull(palette.path, preview?.path, "backgrounds", "light.mode", license)
         // Symlinks (120000), submodules (160000), other trees and every other file are never requested.
         val ignored = root.filter { it.path !in used }.map { if (it.mode == "120000") "${it.path} (link)" else if (it.mode == "160000") "${it.path} (submodule)" else it.path }

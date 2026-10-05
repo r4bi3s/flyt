@@ -116,7 +116,7 @@ private fun TuneIndex(settings: LocalSettings, app: HeimflytApplication, a: Tune
     val roleLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { isDefault = isDefaultHome(context) }
     if (!isDefault) {
         Column(Modifier.fillMaxWidth().padding(vertical = Space.s).background(c.raised, Shapes.m).padding(Space.l)) {
-            Text("Krets isn't your Home app yet.", style = t.type.body)
+            Text("Flyt isn't your Home app yet.", style = t.type.body)
             Spacer(Modifier.height(Space.s))
             PrimaryButton("Make default", Modifier.align(Alignment.End)) {
                 if (Build.VERSION.SDK_INT >= 29) {
@@ -224,7 +224,7 @@ private fun kindOf(action: HomeAction) = when (action) {
     is HomeAction.App -> "app"
     is HomeAction.Tag -> "tag search"
     is HomeAction.Group -> "group · ${action.children.count { it != null }} fixed items"
-    HomeAction.Apps, HomeAction.Search -> "Krets"
+    HomeAction.Apps, HomeAction.Search -> "Flyt"
     is HomeAction.Probe -> "rehearsal · launches nothing"
 }
 
@@ -472,13 +472,13 @@ private fun FanPreview(fan: Fan, p: TuningParams) {
 private fun AboutPage() {
     val t = Heimflyt.t
     val context = LocalContext.current
-    HRow("Krets", subtitle = versionName(context))
-    Text("Krets works offline. It connects to GitHub only when you choose to inspect or install a theme. Your settings and learning stay on this phone.", style = t.type.body, modifier = Modifier.padding(Space.xs))
+    HRow("Flyt", subtitle = versionName(context))
+    Text("Flyt works offline. It connects to GitHub only when you choose to inspect or install a theme. Your settings and learning stay on this phone.", style = t.type.body, modifier = Modifier.padding(Space.xs))
     SectionLabel("credits")
     Text("Palettes from Omarchy (MIT, © David Heinemeier Hansson and contributors). " +
-        BundledThemes.all.joinToString("; ") { it.credit } + ". Grounds are drawn by Krets from each palette.",
+        BundledThemes.all.joinToString("; ") { it.credit } + ". Grounds are drawn by Flyt from each palette.",
         style = t.type.secondary, modifier = Modifier.padding(Space.xs))
-    Text("Themes you install from a .zip file are used for your personal use; Krets keeps only their colours and re-encoded images.",
+    Text("Themes you install from a .zip file are used for your personal use; Flyt keeps only their colours and re-encoded images.",
         style = t.type.secondary, modifier = Modifier.padding(Space.xs))
     SectionLabel("limitations")
     Text("Android Private Space is not supported in this version.", style = t.type.secondary, modifier = Modifier.padding(Space.xs))

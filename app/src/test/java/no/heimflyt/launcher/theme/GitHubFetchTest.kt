@@ -190,7 +190,7 @@ class GitHubFetchTest {
             put("https://raw.githubusercontent.com/o/omarchy-gold-theme/$commit/colors.toml") { Fake.resp(200, palette + "x".toByteArray()) } }))
         // Caps abort mid-stream (an endless body stops at the cap).
         assertTrue(inspect(github().apply { put("https://api.github.com/repos/o/omarchy-gold-theme/commits/main") {
-            HttpResponse(200, { null }, object : java.io.InputStream() { override fun read() = 'a'.code }) {} } }).contains("larger than Krets allows"))
+            HttpResponse(200, { null }, object : java.io.InputStream() { override fun read() = 'a'.code }) {} } }).contains("larger than Flyt allows"))
         assertEquals("This repository doesn't contain an Omarchy theme palette (colors.toml).", inspect(github().apply {
             put("https://api.github.com/repos/o/omarchy-gold-theme/git/trees/$commit") { Fake.resp(200, JSONObject().put("tree", JSONArray()).toString()) } }))
         assertTrue(inspect(github().apply { put("https://raw.githubusercontent.com/o/omarchy-gold-theme/$commit/colors.toml") {

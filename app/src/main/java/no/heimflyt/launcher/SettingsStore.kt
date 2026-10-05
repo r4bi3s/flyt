@@ -74,7 +74,7 @@ data class HomePrefs(
 )
 
 enum class HomeStatusMode(val id: String, val label: String) {
-    ANDROID("android", "Android"), HIDDEN("hidden", "Hidden"), HEIMFLYT("heimflyt", "Krets");
+    ANDROID("android", "Android"), HIDDEN("hidden", "Hidden"), HEIMFLYT("heimflyt", "Flyt");
     companion object { fun from(id: String?) = entries.firstOrNull { it.id == id } ?: ANDROID }
 }
 

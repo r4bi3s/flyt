@@ -297,7 +297,7 @@ fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (Rad
                 when {
                     page == "home" -> HomeSurface(settings, settingsLoaded,
                         status = homeStatus ?: settings.notice?.takeIf { !noticeDismissed }
-                            ?: "Theme couldn't be loaded. Using Krets.".takeIf { themeLoadFailed && !noticeDismissed },
+                            ?: "Theme couldn't be loaded. Using the Krets theme.".takeIf { themeLoadFailed && !noticeDismissed },
                         h7Readout = H7.readout(settings, h7Children),
                         h7Children = h7Children,
                         boundIcons = boundIcons, protection = protection,
