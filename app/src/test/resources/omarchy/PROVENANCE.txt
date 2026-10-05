@@ -1,0 +1,10 @@
+Generated with basecamp/omarchy 3faafba234e530b0986196b98dc2c38951e7dd6f bin/omarchy-theme-color --file <colors.toml> --all (alacritty-only themes first converted with bin/omarchy-theme-colors-from-alacritty from alacritty-palette.toml, which holds only the [colors*] sections of the theme's alacritty.toml). Community sources: JJDizz1L_aetheria Justin-De-Sio_omarchy-tokyoled-theme bjarneo_omarchy-ash-theme bjarneo_omarchy-monokai-theme catlee_omarchy-dracula-theme davidguttman_archwave eldritch-theme_omarchy guilhermetk_omarchy-rose-pine-dark omacom-io_omarchy-synthwave84-theme tahfizhabib_omarchy-amberbyte-theme 
+
+URL-install compatibility fixtures (H5.2, 2026-09-28): palettes fetched at the pinned commit from raw.githubusercontent.com; expected output from the same upstream resolver:
+  https://github.com/HANCORE-linux/omarchy-blackgold-theme 79e26a50f1133f95c056a77857fcd416b6a03766 colors.toml dark
+  https://github.com/catlee/omarchy-dracula-theme f776b6543119dfc8682d9eac84d934d126193be9 colors.toml dark
+  https://github.com/tahfizhabib/omarchy-amberbyte-theme 8ea68b3471f9f67d5b10921f401737e99d53fb24 alacritty.toml dark
+  https://github.com/dfrico/omarchy-solarized-light-theme e7cd8f3024f34105e31faa8d83db1852a5131850 alacritty.toml light
+  https://github.com/bjarneo/omarchy-monokai-theme 619b66e36f160b30bec5a421948316310aba32ab colors.toml dark
+  https://github.com/euandeas/omarchy-flexoki-light-theme d93def77f29d2559fd3be530a24480d2709d32a9 colors.toml light
+  https://github.com/hipsterusername/omarchy-milkmatcha-light-theme f6383965db0779d51e1c89aeb0917779fe0c25a5 alacritty.toml light
