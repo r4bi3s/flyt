@@ -18,7 +18,7 @@ Losing the app signing key ends GitHub updates for existing installs (Play keeps
 ## One-time setup
 
 1. `release/make-keys.sh` — creates both keystores in `/dev/shm` and exports the public certificates. Choose the passwords in Bitwarden.
-2. Create the two Bitwarden items above and copy `flyt-app-signing.jks` to the offline backup.
+2. Create the two Bitwarden Login items above (username and password), run `release/store-keys.sh /dev/shm/flyt-keys.*` to put the keystores in their notes, and copy `flyt-app-signing.jks` to the offline backup.
 3. In Play Console, create Flyt as a **paid** app (it can never become paid later). Under *Test and release → App integrity → Play App Signing* choose to use your own key: *Export and upload a key from Java keystore*. Download `pepk.jar` and the encryption key, then run the PEPK command the console shows against `flyt-app-signing.jks` (alias `flyt-app-signing`). Upload the resulting zip and `~/lunni-keys/flyt-upload.pem` as the upload certificate.
 4. Delete the `/dev/shm/flyt-keys.*` folder.
 5. Publish the app signing certificate SHA-256 (from `release/sign.sh apk` output or Play Console) in the README so users can verify APKs.
