@@ -22,6 +22,16 @@ Requires JDK 17 and Android SDK 36 (`ANDROID_HOME` or `local.properties`):
 
 The debug APK is `app/build/outputs/apk/debug/app-debug.apk`. `assembleDebug` also verifies the merged manifest against a permission and component allowlist.
 
+## Verifying the APK
+
+Official APKs on GitHub Releases are signed with this certificate (SHA-256):
+
+```
+02:18:7F:EB:E5:09:58:A7:AF:E8:97:7F:E9:BB:75:8D:95:E4:19:32:C4:2C:6D:EE:85:7D:32:FB:C9:61:BF:B9
+```
+
+Check with `apksigner verify --print-certs flyt-<version>.apk`, or compare the `.sha256` file published with each release.
+
 ## License
 
 Copyright (C) 2026 Heimlager.
