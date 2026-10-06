@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- Play feature graphic, 1024×500. ?title=…&sub=… -->
+<style>
+  html, body { margin: 0; width: 1024px; height: 500px; overflow: hidden; }
+  body { background: url(../../app/src/main/assets/themes/blaatime/fjord.jpg) center 64% / cover; font-family: Inter, sans-serif; color: #eef2fb; }
+  .shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,17,40,.92) 0%, rgba(10,17,40,.6) 48%, rgba(10,17,40,0) 78%); }
+  .text { position: absolute; left: 72px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; }
+  .brand { display: flex; align-items: center; gap: 18px; font-size: 64px; font-weight: 700; letter-spacing: -0.02em; }
+  .brand svg { width: 64px; height: 64px; }
+  h1 { margin: 22px 0 0; font-size: 40px; line-height: 1.15; font-weight: 600; max-width: 520px; }
+  h1 em { font-style: normal; color: #f0b45e; }
+  p { margin: 14px 0 0; font-size: 22px; color: #b8c3e0; max-width: 520px; }
+</style>
+</head>
+<body>
+  <div class="shade"></div>
+  <div class="text">
+    <div class="brand"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="#f0b45e" stroke-width="2.6"/><circle cx="24" cy="24" r="11" fill="none" stroke="#3a4670" stroke-width="1.6"/><circle cx="36" cy="10" r="3.2" fill="#8cc8e6"/><rect x="21" y="21" width="6" height="6" fill="#f0b45e"/></svg>Flyt</div>
+    <h1 id="t"></h1>
+    <p id="s"></p>
+  </div>
+  <script>
+    const q = new URLSearchParams(location.search);
+    document.getElementById("t").innerHTML = (q.get("title") || "").replace(/\*(.+?)\*/g, "<em>$1</em>");
+    document.getElementById("s").textContent = q.get("sub") || "";
+  </script>
+</body>
+</html>

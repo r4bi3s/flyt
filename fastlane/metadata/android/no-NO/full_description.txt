@@ -1,0 +1,22 @@
+Muskelminne for telefonen.
+
+Flyt er en rolig Android-launcher for én hånd. Trykk der tommelen allerede er, dra i en retning og slipp. Lær en retning én gang, så finner tommelen veien selv, slik fingrene kan en hurtigtast.
+
+TRE VEIER VIDERE FRA HJEM
+• Radial: hver retning har en app, en handling som lommelykten, eller en tagg der appene folder seg ut i en ring nummer to.
+• Søk: apper, kontakter, handlinger og snarveier mens du skriver.
+• Apper: en forutsigbar liste med lokale tagger og faste plasser under tommelen.
+
+LAGET FOR HÅNDEN DIN
+Venstre eller høyre hånd, halv eller hel sirkel, fem til åtte retninger, start hvor som helst eller fra et fast punkt. Hjelpen forsvinner etter hvert som du lærer.
+
+TEMAER
+Flyt har med Blåtime, fire nordiske blåtimer med ett varmt lys, og Krets, i tillegg til paletter som Tokyo Night, Gruvbox og Catppuccin. Lag tema fra egne bilder, eller lim inn GitHub-lenken til et Omarchy-tema.
+
+Det tastaturet er for Omarchy, er tommelen for Flyt.
+
+STILLE MED VILJE
+Ingen konto. Ingen reklame. Ingen analyse. Innstillingene og det Flyt lærer, blir på telefonen. Flyt går bare på nett når du ber den hente et tema fra GitHub.
+
+ÅPEN KILDEKODE
+Flyt er fri programvare under GPL-3.0. Den samme appen er gratis på GitHub. Kjøper du den her, får du automatiske oppdateringer og støtter utviklingen.

@@ -1,0 +1,22 @@
+Muscle memory for your phone.
+
+Flyt is a calm, one-handed Android launcher. Press where your thumb already is, drag toward a direction and let go. Learn a direction once and your thumb just goes there, the way your fingers know a keyboard shortcut.
+
+THREE WAYS FORWARD FROM HOME
+• Radial: each direction holds an app, an action like the flashlight, or a tag whose apps unfold in a second ring.
+• Search: apps, contacts, actions and app shortcuts as you type.
+• Apps: a predictable list with local, overlapping tags and tag slots under your thumb.
+
+MADE FOR YOUR HAND
+Left or right hand, half or full circle, five to eight directions, start anywhere or from a fixed spot. Guidance fades as you learn.
+
+THEMES
+Flyt ships with Blåtime, four Nordic blue-hour scenes with a single warm light, and Krets, plus palettes like Tokyo Night, Gruvbox and Catppuccin. Make a theme from your own photos, or paste the GitHub link of any Omarchy theme.
+
+What the keyboard is to Omarchy, your thumb is to Flyt.
+
+QUIET BY DESIGN
+No account. No ads. No analytics. Your settings and what Flyt learns stay on your phone. Flyt only goes online when you ask it to fetch a theme from GitHub.
+
+OPEN SOURCE
+Flyt is free software under GPL-3.0. The same app is free on GitHub; buying it here gets you automatic updates and supports development.
