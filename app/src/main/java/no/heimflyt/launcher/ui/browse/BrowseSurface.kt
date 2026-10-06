@@ -128,12 +128,13 @@ fun BrowseSurface(app: HeimflytApplication, leftHanded: Boolean, safe: WindowIns
                 DropdownMenuItem({ Text("Browse experiment: ${r.label}" + if (r == renderer) " ✓" else "") },
                     { open = false; view = null; expanded = false; app.browse.setRenderer(r) })
             }
-            DropdownMenuItem({ Text("Tune") }, { open = false; onTune() })
+            // The header carries Tune; only the tray experiment has no header.
+            if (renderer == BrowseRenderer.PROGRESSIVE) DropdownMenuItem({ Text("Tune") }, { open = false; onTune() })
         }
     }
     @Composable fun Header() = ScreenHeader("Apps", onBack = null, meta = "${items.size} apps" + if (BROWSE_EXPERIMENT_EXPOSED) " · ${renderer.label} (experiment)" else "", trailing = {
         QuietButton("Tags", color = c.ink, onClick = onEditTags)
-        Menu(); IconButtonGlyph(R.drawable.glyph_close, "Home", onClick = onHome)
+        Menu(); IconButtonGlyph(R.drawable.glyph_tune, "Tune", onClick = onTune); IconButtonGlyph(R.drawable.glyph_close, "Home", onClick = onHome)
     })
     @Composable fun Status() {
         catalog.warning?.let { StatusPill(it, { repo.refresh() }) }

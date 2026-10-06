@@ -81,9 +81,9 @@ fun AppsSurface(
                     IconButtonGlyph(R.drawable.glyph_more, "More") { menuOpen = true }
                     DropdownMenu(menuOpen, { menuOpen = false }) {
                         DropdownMenuItem({ Text("Edit tags") }, { menuOpen = false; onEditTags() })
-                        DropdownMenuItem({ Text("Tune") }, { menuOpen = false; onTune() })
                     }
                 }
+                IconButtonGlyph(R.drawable.glyph_tune, "Tune", onClick = onTune)
                 IconButtonGlyph(R.drawable.glyph_close, "Home", onClick = onBack)
             })
         if (pickerSlot == null && !hintSeen && catalog.loaded) Text("Long-press an app for tags and info.", style = t.type.caption,

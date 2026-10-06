@@ -43,6 +43,11 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- The gear beside Flyt in Android's Default apps → Home app opens Tune. -->
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
             <!-- Import a shared or opened theme .zip (the same bounded, two-pass importer; the owner confirms in the Report). -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />

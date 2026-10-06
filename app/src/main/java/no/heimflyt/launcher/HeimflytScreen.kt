@@ -56,7 +56,8 @@ import no.heimflyt.launcher.ui.tune.TuneSurface
 
 @OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
-fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (RadialTouchView?) -> Unit, openHomeSettings: () -> Unit) {
+fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (RadialTouchView?) -> Unit, openHomeSettings: () -> Unit,
+                   tuneRequest: Int = 0) {
     val settings by app.settings.settings.collectAsStateWithLifecycle()
     val settingsLoaded by app.settings.loaded.collectAsStateWithLifecycle()
     val active by app.themes.store.active.collectAsStateWithLifecycle()
@@ -143,6 +144,7 @@ fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (Rad
         app.settings.deleteTag(name)
     }
     LaunchedEffect(homeEpoch) { home() }
+    LaunchedEffect(tuneRequest) { if (tuneRequest > 0) { home(); page = TunePage.INDEX.route } }
     LaunchedEffect(pendingImport) { if (pendingImport != null) { touch?.cancel(CancelReason.SYSTEM); page = "themes" } }
     BackHandler {
         touch?.cancel(CancelReason.BACK)

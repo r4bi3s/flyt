@@ -13,6 +13,8 @@ import no.heimflyt.launcher.theme.startup
 class MainActivity : ComponentActivity() {
     internal var touch: RadialTouchView? = null
     private val homeEpoch=mutableIntStateOf(0)
+    /** Bumped when Android asks for Flyt's settings (APPLICATION_PREFERENCES); Home then opens Tune. */
+    private val tuneRequest=mutableIntStateOf(0)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,7 +31,8 @@ class MainActivity : ComponentActivity() {
             applyBarAppearance(light,light)
         }
         importFrom(intent)
-        setContent { HeimflytScreen(app,homeEpoch.intValue,{ touch=it },::openHomeSettings) }
+        if (intent?.action==Intent.ACTION_APPLICATION_PREFERENCES) tuneRequest.intValue++
+        setContent { HeimflytScreen(app,homeEpoch.intValue,{ touch=it },::openHomeSettings,tuneRequest.intValue) }
     }
     /** A shared (SEND) or opened (VIEW) theme .zip: queue it for the Themes Report. Returns true if the intent was one. */
     private fun importFrom(intent: Intent?): Boolean {
@@ -46,6 +49,7 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent); setIntent(intent)
         if (importFrom(intent)) return
         touch?.cancel(CancelReason.HOME)
+        if (intent.action==Intent.ACTION_APPLICATION_PREFERENCES) { tuneRequest.intValue++; return }
         homeEpoch.intValue++
     }
     override fun onStop() {
