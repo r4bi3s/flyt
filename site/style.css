@@ -67,7 +67,9 @@ section { padding: clamp(64px, 10vw, 120px) 0; border-top: 1px solid var(--line)
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 28px; }
 .card .glyph { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); margin-bottom: 18px; }
 .card p { color: var(--dim); margin: 0; }
-.card .shot { margin: -28px -28px 22px; aspect-ratio: 16 / 10; border-radius: 20px 20px 0 0; border-bottom: 1px solid var(--line); background: repeating-linear-gradient(135deg, transparent 0 12px, color-mix(in srgb, var(--fg) 4%, transparent) 12px 24px); display: grid; place-items: center; font: .8rem var(--mono); color: var(--dim); }
+.card .shot { margin: -28px -28px 22px; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 20px 20px 0 0; border-bottom: 1px solid var(--line); background: repeating-linear-gradient(135deg, transparent 0 12px, color-mix(in srgb, var(--fg) 4%, transparent) 12px 24px); display: grid; place-items: center; font: .8rem var(--mono); color: var(--dim); }
+
+.card .shot video, .card .shot img { width: 100%; height: 100%; object-fit: cover; }
 
 /* Omarchy */
 .omarchy h2 { max-width: 15em; }
