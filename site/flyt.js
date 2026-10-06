@@ -4,7 +4,8 @@
 
   // ---- Themes: the palettes bundled with Flyt (colors.toml) -------------------------------------
   const THEMES = [
-    { id: "krets", name: "Krets", note: "Flyt's own", bg: "#101d25", bg2: "#1b3038", fg: "#c8d8d5", muted: "#31545c", accent: "#68d9d0", warm: "#f0cb83" },
+    { id: "blaatime", name: "Blåtime", note: "Flyt's own", bg: "#0f1733", bg2: "#1b2547", fg: "#d4dcf0", muted: "#3a4670", accent: "#f0b45e", warm: "#8cc8e6", image: true },
+    { id: "krets", name: "Krets", note: "Flyt's own", image: true, bg: "#101d25", bg2: "#1b3038", fg: "#c8d8d5", muted: "#31545c", accent: "#68d9d0", warm: "#f0cb83" },
     { id: "tokyo-night", name: "Tokyo Night", note: "enkia", bg: "#1a1b26", bg2: "#24283b", fg: "#a9b1d6", muted: "#414868", accent: "#7aa2f7", warm: "#e0af68" },
     { id: "gruvbox", name: "Gruvbox", note: "sainnhe", bg: "#282828", bg2: "#3c3836", fg: "#d4be98", muted: "#665c54", accent: "#7daea3", warm: "#d8a657" },
     { id: "everforest", name: "Everforest", note: "sainnhe", bg: "#2d353b", bg2: "#343f44", fg: "#d3c6aa", muted: "#475258", accent: "#7fbbb3", warm: "#dbbc7f" },
@@ -22,13 +23,28 @@
     for (const k of ["bg", "bg2", "fg", "muted", "accent", "warm"]) root.style.setProperty("--" + k, t[k]);
     root.dataset.theme = t.id;
     if (t.light) root.dataset.light = ""; else delete root.dataset.light;
-    // Other themes get a ground drawn from their palette, as Flyt does on Home.
-    root.style.setProperty("--ground", t.id === "krets" ? "" :
-      `radial-gradient(120% 70% at 85% 95%, ${t.accent}55, transparent 60%), radial-gradient(90% 60% at 0% 60%, ${t.muted}, transparent 70%), linear-gradient(${t.bg2}, ${t.bg})`);
-    if (t.id === "krets") root.style.removeProperty("--ground");
+    // Palette-only themes get a ground drawn from their colours, as Flyt does on Home; Flyt's own themes use their images.
+    if (t.image) root.style.removeProperty("--ground");
+    else root.style.setProperty("--ground", `url("data:image/svg+xml,${encodeURIComponent(ground(t))}")`);
     document.querySelector('meta[name="theme-color"]')?.setAttribute("content", t.bg);
     document.querySelectorAll(".swatch").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.id === t.id)));
     if (remember) store.set("flyt-theme", t.id);
+  }
+
+  // A quiet landscape in the palette: sky glow, three ridges, still water and one small light (the Blåtime idea).
+  function ground(t) {
+    const mix = (a, b, k) => "#" + [0, 2, 4].map(i => Math.round(parseInt(a.substr(1 + i, 2), 16) * (1 - k) + parseInt(b.substr(1 + i, 2), 16) * k).toString(16).padStart(2, "0")).join("");
+    const sky = t.light ? mix(t.bg, t.accent, .08) : t.bg;
+    const ridge = k => mix(t.light ? t.bg2 : t.bg, t.light ? t.fg : t.muted, k);
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 760" preserveAspectRatio="xMidYMid slice">
+      <defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky}"/><stop offset=".55" stop-color="${mix(sky, t.accent, .16)}"/><stop offset="1" stop-color="${t.bg}"/></linearGradient>
+      <radialGradient id="g" cx=".55" cy=".52" r=".35"><stop offset="0" stop-color="${t.accent}" stop-opacity=".28"/><stop offset="1" stop-color="${t.accent}" stop-opacity="0"/></radialGradient></defs>
+      <rect width="360" height="760" fill="url(#s)"/><rect width="360" height="760" fill="url(#g)"/>
+      <path d="M0 400 L60 330 L110 372 L170 300 L235 380 L290 335 L360 390 V760 H0Z" fill="${ridge(.35)}"/>
+      <path d="M0 430 L45 395 L120 445 L200 380 L270 440 L330 410 L360 425 V760 H0Z" fill="${ridge(.2)}"/>
+      <rect y="452" width="360" height="308" fill="${mix(t.bg, t.light ? t.bg2 : "#000000", .25)}"/>
+      <path d="M150 520 q40 -18 80 -6" stroke="${t.warm}" stroke-opacity=".55" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle cx="232" cy="513" r="3.2" fill="${t.warm}"/></svg>`;
   }
 
   const swatches = document.getElementById("swatches");
@@ -41,7 +57,7 @@
     swatches.append(b);
   }
   // ?theme=<id> opens the page in a palette, so a link can show it in someone's favourite theme.
-  applyTheme(new URLSearchParams(location.search).get("theme") || store.get("flyt-theme") || "krets", false);
+  applyTheme(new URLSearchParams(location.search).get("theme") || store.get("flyt-theme") || "blaatime", false);
 
   // ---- Radial demo ------------------------------------------------------------------------------
   const svg = document.getElementById("demo");
