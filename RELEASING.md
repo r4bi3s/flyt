@@ -32,3 +32,11 @@ Losing the app signing key ends GitHub updates for existing installs (Play keeps
 5. GitHub: create a release for the tag with `dist/flyt-<version>.apk`, its `.sha256` and the release notes.
 
 Store submission and public release are separate maintainer decisions.
+
+## Website
+
+The site in `site/` is served by GitHub Pages from the `gh-pages` branch at https://r4bi3s.github.io/flyt (privacy policy: `/privacy.html`). After changing `site/` on `main`, publish it with:
+
+```
+git subtree split --prefix site -b gh-pages && git push origin gh-pages
+```
