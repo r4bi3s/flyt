@@ -32,8 +32,8 @@ Keystores are in $out (memory only, gone after reboot):
 Public certificates: ~/lunni-keys/flyt-app-signing.pem, ~/lunni-keys/flyt-upload.pem
 
 Next (RELEASING.md, "One-time setup"):
-  1. Bitwarden folder «Lunni»: create «Lunni Flyt - Android app signing key» and
-     «Lunni Flyt - Android upload key». Username = alias, password = keystore
+  1. In Bitwarden (any folder), create Login items «Flyt - Android app signing key» and
+     «Flyt - Android upload key». Username = alias, password = keystore
      password, attach the .jks file.
   2. Copy flyt-app-signing.jks to the offline backup.
   3. Encrypt the app signing key for Play with PEPK when creating the app.

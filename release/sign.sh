@@ -12,8 +12,8 @@ set -euo pipefail
 kind=${1:-}
 root=$(cd "$(dirname "$0")/.." && pwd)
 case "$kind" in
-  apk) item="Lunni Flyt - Android app signing key"; input="$root/app/build/outputs/apk/release/app-release-unsigned.apk" ;;
-  aab) item="Lunni Flyt - Android upload key";      input="$root/app/build/outputs/bundle/release/app-release.aab" ;;
+  apk) item="Flyt - Android app signing key"; input="$root/app/build/outputs/apk/release/app-release-unsigned.apk" ;;
+  aab) item="Flyt - Android upload key";      input="$root/app/build/outputs/bundle/release/app-release.aab" ;;
   *) echo "usage: $0 apk|aab" >&2; exit 2 ;;
 esac
 [[ -f "$input" ]] || { echo "Missing $input. Build the release first." >&2; exit 1; }
