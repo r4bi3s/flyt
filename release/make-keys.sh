@@ -34,7 +34,7 @@ Public certificates: ~/lunni-keys/flyt-app-signing.pem, ~/lunni-keys/flyt-upload
 Next (RELEASING.md, "One-time setup"):
   1. In Bitwarden (any folder), create Login items «Flyt - Android app signing key» and
      «Flyt - Android upload key». Username = alias, password = keystore
-     password, attach the .jks file.
+     password, notes = base64 of the .jks file (see RELEASING.md).
   2. Copy flyt-app-signing.jks to the offline backup.
   3. Encrypt the app signing key for Play with PEPK when creating the app.
   4. Then delete the folder: rm -rf $out

@@ -28,12 +28,13 @@ trap 'rm -rf "$tmp"' EXIT
 chmod 700 "$tmp"
 
 json=$(bw get item "$item")
-id=$(jq -r .id <<<"$json")
 alias=$(jq -r .login.username <<<"$json")
-attachment=$(jq -r '.attachments[0].fileName' <<<"$json")
-bw get attachment "$attachment" --itemid "$id" --output "$tmp/key.jks" >/dev/null
 FLYT_KS_PASS=$(jq -r .login.password <<<"$json")
 export FLYT_KS_PASS
+# The keystore is stored base64-encoded in the item's notes (attachments need Bitwarden Premium).
+jq -r .notes <<<"$json" | base64 -d > "$tmp/key.jks"
+keytool -list -keystore "$tmp/key.jks" -storepass:env FLYT_KS_PASS -alias "$alias" >/dev/null 2>&1 \
+  || { echo "The keystore in «$item» notes, its password or alias (username) do not match." >&2; exit 1; }
 unset json
 
 mkdir -p "$root/dist"

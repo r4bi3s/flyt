@@ -11,7 +11,7 @@ Gradle builds release outputs **unsigned**; no key or password ever enters the b
 | App signing key (`flyt-app-signing`) | GitHub APKs; given to Play App Signing once | Bitwarden «Flyt - Android app signing key» + offline backup. Never in CI secrets. |
 | Upload key (`flyt-upload`) | Signing bundles uploaded to Play | Bitwarden «Flyt - Android upload key» |
 
-Each Bitwarden item: username = key alias, password = keystore password, the `.jks` file as attachment. Public certificates live in `~/lunni-keys/`.
+Each Bitwarden Login item: username = key alias, password = keystore password, notes = the `.jks` file base64-encoded (`base64 -w0`; attachments would need Premium). Public certificates live in `~/lunni-keys/`.
 
 Losing the app signing key ends GitHub updates for existing installs (Play keeps working, since Google holds a copy). A leaked app signing key lets others sign APKs that install over Flyt. Keep the offline backup and treat the key accordingly. A lost upload key can be reset through Play support.
 
