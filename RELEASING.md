@@ -9,7 +9,7 @@ Gradle builds release outputs **unsigned**; no key or password ever enters the b
 | Key | Used for | Stored |
 |---|---|---|
 | App signing key (`flyt-app-signing`) | GitHub APKs; given to Play App Signing once | Bitwarden «Flyt - Android app signing key» + offline backup. Never in CI secrets. |
-| Upload key (`flyt-upload`) | Signing bundles uploaded to Play | Bitwarden «Flyt - Android upload key» |
+| Upload key (`flyt-upload`) | Not registered with Play yet: Play accepts bundles signed with the app signing key. Register it with an upload key reset in Play Console, then sign bundles with `FLYT_AAB_ITEM="Flyt - Android upload key"`. | Bitwarden «Flyt - Android upload key» |
 
 Each Bitwarden Login item: username = key alias, password = keystore password, notes = the `.jks` file base64-encoded (`base64 -w0`; attachments would need Premium). Public certificates live in `~/lunni-keys/`.
 

@@ -3,7 +3,10 @@
 # Run it yourself after: export BW_SESSION=$(bw unlock --raw)
 #
 #   release/sign.sh apk   GitHub APK, app signing key  -> dist/flyt-<version>.apk + .sha256
-#   release/sign.sh aab   Play bundle, upload key      -> dist/flyt-<version>.aab
+#   release/sign.sh aab   Play bundle, app signing key -> dist/flyt-<version>.aab
+#
+# Play currently accepts uploads signed with the app signing key (no separate upload key is registered).
+# After an upload key reset in Play Console, set FLYT_AAB_ITEM="Flyt - Android upload key".
 #
 # Build first: ./gradlew :app:assembleRelease :app:bundleRelease
 # The keystore exists only in /dev/shm while signing and is removed afterwards.
@@ -13,7 +16,7 @@ kind=${1:-}
 root=$(cd "$(dirname "$0")/.." && pwd)
 case "$kind" in
   apk) item="Flyt - Android app signing key"; input="$root/app/build/outputs/apk/release/app-release-unsigned.apk" ;;
-  aab) item="Flyt - Android upload key";      input="$root/app/build/outputs/bundle/release/app-release.aab" ;;
+  aab) item=${FLYT_AAB_ITEM:-"Flyt - Android app signing key"}; input="$root/app/build/outputs/bundle/release/app-release.aab" ;;
   *) echo "usage: $0 apk|aab" >&2; exit 2 ;;
 esac
 [[ -f "$input" ]] || { echo "Missing $input. Build the release first." >&2; exit 1; }
