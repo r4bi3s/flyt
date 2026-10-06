@@ -163,6 +163,7 @@
   const fixed = Number(new URLSearchParams(location.search).get("t"));
   function run() {
     cancelAnimationFrame(raf);
+    document.querySelectorAll("video[autoplay]").forEach(v => still.matches ? v.pause() : v.play().catch(() => {}));
     if (fixed > 0) { frame(fixed); return; }
     if (still.matches) { frame(2500); setCaption("Press, drag toward a direction, let go."); return; }
     if (visible && !document.hidden) raf = requestAnimationFrame(loop);
