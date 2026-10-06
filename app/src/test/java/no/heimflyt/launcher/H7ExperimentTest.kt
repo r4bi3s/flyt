@@ -91,4 +91,14 @@ class H7ExperimentTest {
         assertTrue(H7.describe(result, e.frame, e.targets, tuning, -1, launch = true).line.contains("launch=1"))
         assertTrue(record.line.contains("inwardSwitches="))
     }
+
+    @Test fun recordToleratesUnsetAngles() {
+        // Regression: a nested gesture released before any exit angle was set crashed Home ("Cannot round NaN value").
+        val e = RadialEngine(); e.begin(0f, 0f, 0, tuning, nested = NestedConfig.single(3))
+        val result = e.release(0f, 0f, 24) ?: GestureResult.Tap
+        val frame = e.frame.copy(x = Float.NaN, originX = Float.NaN)
+        val record = H7.describe(result, frame, e.targets, tuning, Nest.CHATGPT)
+        assertTrue(record.line.contains("exit=-°"))
+        assertTrue(record.line.contains("origin=-,"))
+    }
 }

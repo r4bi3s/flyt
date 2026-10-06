@@ -131,25 +131,28 @@ object H7 {
         val sector = (result as? GestureResult.Selected)?.sector ?: f.lastSector
         val angle = RadialGeometry.angle(f.x - f.originX, f.y - f.originY)
         val axis = sector?.let { RadialGeometry.sectorAngle(it, p) }
-        val axisOffset = axis?.let { Nest.signed(angle - it).roundToInt() }
-        val incomingOffset = targets?.takeIf { f.nest != NestState.LEVEL1 }?.let { Nest.signed(angle - it.incoming).roundToInt() }
+        val axisOffset = axis?.let { Nest.signed(angle - it).whole() }
+        val incomingOffset = targets?.takeIf { f.nest != NestState.LEVEL1 }?.let { Nest.signed(angle - it.incoming).whole() }
         val requestedName = if (asked in 0..3) parent?.second?.invoke(asked) ?: Nest.NAMES[asked] else "-"
         val selectedName = if (child !in 0..3) "-" else parent?.second?.invoke(child) ?: Nest.NAMES[child]
         val score = if (asked < 0) "" else if (asked == child) " ✓" else " ✗"
         val corrected = targets?.let { " changes=${it.changes} clears=${it.clears} inwardSwitches=${it.inwardSwitches}" } ?: ""
         val fan = targets?.takeIf { f.nest != NestState.LEVEL1 }?.let { label(it.fan) } ?: "-"
         val line = "tag=${parent?.first ?: "-"} asked=$requestedName got=$selectedName$score $outcome sector=${sector?.plus(1) ?: "-"} " +
-            "fan=$fan origin=${f.originX.roundToInt()},${f.originY.roundToInt()} " +
-            "release=${radius.roundToInt()}dp angle=${angle.roundToInt()}° axisOffset=${axisOffset ?: "-"}° " +
-            "incomingOffset=${incomingOffset ?: "-"}° exit=${targets?.exitAngle?.roundToInt() ?: "-"}° " +
+            "fan=$fan origin=${f.originX.whole()},${f.originY.whole()} " +
+            "release=${radius.whole()}dp angle=${angle.whole()}° axisOffset=${axisOffset ?: "-"}° " +
+            "incomingOffset=${incomingOffset ?: "-"}° exit=${targets?.exitAngle?.whole() ?: "-"}° " +
             "hist=L${if (targets?.lockOnHistorical == true) 1 else 0}C${if (targets?.childOnHistorical == true) 1 else 0} " +
             "disagree=${targets?.disagreement ?: 0}$corrected launch=${if (launch && child >= 0) 1 else 0} ${f.elapsed}ms"
         val shown = if (child >= 0) selectedName + score else outcome + score
-        val short = "$shown · ${radius.roundToInt()} dp · ${f.elapsed} ms"
+        val short = "$shown · ${radius.whole()} dp · ${f.elapsed} ms"
         return Record(asked, outcome, child, short, line, requestedName)
     }
 
     /** Icon size / distance beyond the ring / spread. */
+    /** Diagnostics must never take Home down: an unset angle (NaN, e.g. no exit yet) is logged as "-". */
+    private fun Float.whole(): String = if (isFinite()) roundToInt().toString() else "-"
+
     fun label(fan: Fan) = "${fan.size.roundToInt()}/${fan.beyond.roundToInt()}/${fan.spread.roundToInt()}°"
 
     fun summary(): String {
