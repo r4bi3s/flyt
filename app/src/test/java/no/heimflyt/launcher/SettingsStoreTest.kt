@@ -144,7 +144,8 @@ class SettingsStoreTest {
         store.updateHome { it.copy(h7=true,h7Guide=false,h7Fan=fan,h7Launch=true,appsOnThumb=false) }
         withTimeout(3000) { while(prefs.getString("settings","")!!.contains("\"h7\":true").not()) delay(10) }
         val restored=SettingsStore(app)
-        val home=withTimeout(3000) { restored.settings.first { it.home.h7 } }.home
+        withTimeout(3000) { restored.loaded.first { it } }
+        val home=restored.settings.value.home
         assertFalse(home.h7Guide)
         assertEquals(fan,home.h7Fan)
         assertTrue(home.h7Launch); assertFalse(home.appsOnThumb)

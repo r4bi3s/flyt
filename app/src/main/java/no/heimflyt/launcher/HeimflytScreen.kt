@@ -150,11 +150,10 @@ fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (Rad
         touch?.cancel(CancelReason.BACK)
         when {
             pickerSlot != null -> { pickerSlot = null; page = TunePage.DIRECTIONS.route }
-            page == TunePage.SEARCH.route -> page = TunePage.APPS.route
             page.startsWith("settings/") -> page = TunePage.INDEX.route
             page.startsWith("themes/") -> page = "themes"
             page == "create" -> { createSource = null; page = "themes" }
-            page == "themes" -> page = TunePage.LOOK.route
+            page == "themes" -> page = TunePage.HOME.route
             page == "tags" -> page = tagReturn
             else -> home()
         }
@@ -366,7 +365,7 @@ fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (Rad
                         bottomAnchored = settings.home.searchAtBottom)
                     page == "themes" -> ThemesGallery(app, onOpen = { page = "themes/$it" }, onCreate = { createSource = CreateSource.Picked(it); page = "create" },
                         pendingImport = pendingImport, onImportTaken = { app.themes.pendingImport.value = null },
-                        onBack = { page = TunePage.LOOK.route })
+                        onBack = { page = TunePage.HOME.route })
                     page.startsWith("themes/") -> ThemeDetail(app, page.removePrefix("themes/"), onEdit = { createSource = CreateSource.Edit(it); page = "create" },
                         onBack = { page = "themes" })
                     page == "create" && createSource != null -> CreateThemeScreen(app, createSource!!,
@@ -377,12 +376,11 @@ fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (Rad
                         onPickApp = { slot -> pickerSlot = slot; query = ""; page = "apps" },
                         onEditGroup = { slot -> groupSlot = slot; page = "group" },
                         onEditTag = { radialTag = it; radialTagReturn = TunePage.DIRECTIONS.route; page = "tag-radial" },
-                        onTags = { tagReturn = TunePage.APPS.route; page = "tags" },
+                        onTags = { tagReturn = TunePage.INDEX.route; page = "tags" },
                         onResetLearning = { app.settings.resetFamiliarity() }, onHome = { app.settings.updateHome(it) },
                         onOpenHomeSettings = openHomeSettings, onShowDirections = { home(); showDirections = true },
                         onNavigate = { page = it.route }, onThemes = { page = "themes" }, onTheme = { page = "themes/$it" },
-                        onBack = { if (page == TunePage.INDEX.route) home()
-                            else page = if (page == TunePage.SEARCH.route) TunePage.APPS.route else TunePage.INDEX.route }))
+                        onBack = { if (page == TunePage.INDEX.route) home() else page = TunePage.INDEX.route }))
                 }
             }
             if (page == "apps" && overWallpaper) Browse(safe)

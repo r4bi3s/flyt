@@ -38,10 +38,11 @@ class TagRadialChoicesTest {
         val store = store()
         store.setTagGroup("home", group)
         store.update(bindings = store.settings.value.bindings.toMutableList().also { it[7] = HomeAction.Tag("home") })
-        store.updateHome { it.copy(h7 = true) }
+        // h7 is on by default now, so wait for a value only this last edit writes.
+        store.updateHome { it.copy(h7 = true, appsHintSeen = true) }
         val prefs = RuntimeEnvironment.getApplication().getSharedPreferences("hardware1", Context.MODE_PRIVATE)
         withTimeout(3000) {
-            while (prefs.getString("settings", "")?.let { "tagGroups" in it && "\"h7\":true" in it } != true) delay(10)
+            while (prefs.getString("settings", "")?.let { "tagGroups" in it && "\"appsHintSeen\":true" in it } != true) delay(10)
         }
         val restored = SettingsStore(RuntimeEnvironment.getApplication())
         withTimeout(3000) { restored.loaded.first { it } }

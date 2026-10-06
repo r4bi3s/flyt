@@ -64,11 +64,14 @@ data class HomePrefs(
     val searchWord: Boolean = true,
     /** Owner finding (after H7): Apps has no other short path from Home, so it takes the thumb corner; Search moves across. */
     val appsOnThumb: Boolean = true,
-    /** H7.1 disposable Agenter rehearsal. Off by default. */
-    val h7: Boolean = false,
+    /**
+     * Tag rings: a tag's apps unfold beyond the radial. On for new installations; an installation that already saved Home
+     * preferences keeps its choice, because a missing key there still decodes as off.
+     */
+    val h7: Boolean = true,
     val h7Guide: Boolean = true,
-    /** H7 experiment: releasing on a child icon opens that app. Off = rehearsal, nothing opens. */
-    val h7Launch: Boolean = false,
+    /** Releasing on a ring icon opens that app. Off = rehearsal (Experiments), nothing opens. Same default rule as [h7]. */
+    val h7Launch: Boolean = true,
     /** Owner-tuned fan geometry; persisted only where it differs from the default. */
     val h7Fan: Fan = Fan(),
 )

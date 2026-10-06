@@ -10,7 +10,7 @@ class H7ExperimentTest {
     private fun group(name: String = "agenter") = HomeAction.Group(name, List(4) { HomeAction.App("p/.A$it", 0, "A$it") }, name)
     private fun settings(on: Boolean, slot: Int = 3, count: Int = 8) = LocalSettings(tuning.copy(sectorCount = count),
         List(8) { if (it == slot) group() else HomeAction.Probe(it + 1) },
-        home = HomePrefs(h7 = on, h7Fan = fan))
+        home = HomePrefs(h7 = on, h7Launch = false, h7Fan = fan))
 
     private fun kids(name: String, vararg slots: Int): H7.Children {
         val g = group(name)
