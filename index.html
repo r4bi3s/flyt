@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flyt — muscle memory for your phone</title>
+<meta name="description" content="Flyt is a calm, one-handed Android launcher. Learn a direction once, then your thumb just goes there. Works with Omarchy themes. No account, ads or analytics.">
+<meta name="theme-color" content="#101d25">
+<meta property="og:title" content="Flyt — muscle memory for your phone">
+<meta property="og:description" content="What the keyboard is to Omarchy, your thumb is to Flyt. A calm, one-handed Android launcher.">
+<meta property="og:type" content="website">
+<link rel="icon" href="img/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="Flyt home">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18" fill="none" stroke="var(--accent)" stroke-width="2.6"/><circle cx="24" cy="24" r="11" fill="none" stroke="var(--muted)" stroke-width="1.6"/><circle cx="36" cy="10" r="3.2" fill="var(--warm)"/><rect x="21" y="21" width="6" height="6" fill="var(--accent)"/></svg>
+      Flyt
+    </a>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#omarchy">Omarchy</a>
+      <a href="#themes">Themes</a>
+      <a class="cta-link" href="#get">Get Flyt</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">A one-handed Android launcher</span>
+      <h1>Muscle memory<br>for your <span class="accent">phone</span>.</h1>
+      <p class="lead">Press where your thumb already is, drag toward a direction, let go. Learn a direction once and your thumb just goes there, the way your fingers know a keyboard shortcut.</p>
+      <div class="buttons">
+        <a class="btn primary" href="#get">Get Flyt <small>Android 8+</small></a>
+        <a class="btn" href="#omarchy">Coming from Omarchy?</a>
+      </div>
+      <p class="tagline"><b>Keyboard-driven desktop.</b> Thumb-driven phone.</p>
+    </div>
+    <div>
+      <div class="phone" aria-label="Animation: a thumb opens Flyt's radial menu on the home screen, drags toward a tag, and its apps unfold in a second ring" role="img">
+        <div class="screen">
+          <svg id="demo" viewBox="0 0 320 676" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <text x="22" y="118" style="fill:var(--fg);font:300 58px var(--sans)">07:57</text>
+            <text x="24" y="146" style="fill:var(--fg);opacity:.85;font:400 14px var(--sans)">Monday 6 October · week 41</text>
+            <text x="24" y="642" style="fill:var(--fg);font:500 15px var(--sans)">Search</text>
+            <text x="296" y="642" text-anchor="end" style="fill:var(--fg);font:500 15px var(--sans)">Apps</text>
+            <g id="radial"></g>
+            <g id="toast" opacity="0">
+              <rect x="95" y="560" width="130" height="34" rx="17" style="fill:var(--bg2);stroke:var(--accent)"/>
+              <text id="toastText" x="160" y="582" text-anchor="middle" style="fill:var(--fg);font:500 13px var(--mono)"></text>
+            </g>
+            <g id="thumb" opacity="0">
+              <circle r="22" style="fill:var(--fg);opacity:.16"/>
+              <circle r="11" style="fill:none;stroke:var(--fg);stroke-width:1.5;opacity:.7"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <p class="caption" id="caption" aria-live="off">Press where your thumb rests</p>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <span class="eyebrow">How it works</span>
+    <h2>Three ways forward from Home.<br><span style="color:var(--dim)">Nothing in between.</span></h2>
+    <p class="lead">Home stays quiet: a clock, your wallpaper and two words. Everything else is one movement away.</p>
+    <div class="ways">
+      <article class="card">
+        <div class="shot">screenshot: radial with a tag ring</div>
+        <h3>Radial</h3>
+        <p>Drag from where your thumb rests. Each direction holds an app, an action like the flashlight, or a tag whose apps unfold into a second ring.</p>
+      </article>
+      <article class="card">
+        <div class="shot">screenshot: search</div>
+        <h3>Search</h3>
+        <p>For everything you haven't learned yet. Apps, contacts, actions and app shortcuts, ranked as you type. Prefix <span class="mono">#</span> to search inside a tag.</p>
+      </article>
+      <article class="card">
+        <div class="shot">screenshot: apps and tags</div>
+        <h3>Apps</h3>
+        <p>A predictable list of everything installed, with local, overlapping tags. A tag can live in the list, in Search and on the radial at the same time.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="omarchy" class="omarchy">
+  <div class="wrap">
+    <span class="eyebrow">Inspired by Omarchy</span>
+    <h2>What the keyboard is to Omarchy, <span class="accent">your thumb is to Flyt</span>.</h2>
+    <p class="lead">Omarchy made the desktop fast by trusting muscle memory: no hunting for icons, just a hotkey your fingers already know. Flyt brings that idea to the one device you use with one hand.</p>
+
+    <div class="versus">
+      <div class="term">
+        <div class="title"><i></i><i></i><i></i><span>desktop · Omarchy</span></div>
+        <div class="row"><kbd>Super</kbd>+<kbd>Space</kbd><span class="to">→ menu</span></div>
+        <div class="row"><kbd>Super</kbd>+<kbd>Return</kbd><span class="to">→ terminal</span></div>
+        <div class="row"><kbd>Super</kbd>+<kbd>K</kbd><span class="to">→ every hotkey</span></div>
+      </div>
+      <div class="eq" aria-hidden="true">≈</div>
+      <div class="term">
+        <div class="title"><i></i><i></i><i></i><span>phone · Flyt</span></div>
+        <div class="row"><span class="dir">↑</span><span class="to">→ #photos, then Camera</span></div>
+        <div class="row"><span class="dir">↙</span><span class="to">→ Phone</span></div>
+        <div class="row"><span class="dir">⌕</span><span class="to">→ Search, for everything else</span></div>
+      </div>
+    </div>
+
+    <div class="points">
+      <div>
+        <h3><span class="accent mono">01</span> Your Omarchy theme, on your phone</h3>
+        <p>Paste the GitHub link of any Omarchy theme and Flyt inspects, previews and installs its palette and backgrounds. Only when you ask; nothing runs in the background.</p>
+        <span class="cmd">github.com/you/omarchy-your-theme</span>
+      </div>
+      <div>
+        <h3><span class="accent mono">02</span> And back again</h3>
+        <p>Make a theme on the phone from your own photos, then share it as a standard Omarchy theme folder. Drop it in your themes folder, or push it to Git and install it like any other.</p>
+        <span class="cmd">omarchy theme install https://github.com/you/your-theme</span>
+      </div>
+      <div>
+        <h3><span class="accent mono">03</span> Same doctrine</h3>
+        <p>Fast by default. Quiet when idle. Nothing between intent and action. You don't need Omarchy to use Flyt, but if you use it, you'll feel at home.</p>
+      </div>
+    </div>
+    <p class="fine">Flyt is an independent project and is not affiliated with or endorsed by Omarchy or its authors. Bundled palettes come from MIT-licensed themes; see the <a href="https://github.com/r4bi3s/flyt/blob/main/app/src/main/assets/themes/NOTICE.txt">theme notice</a>.</p>
+  </div>
+</section>
+
+<section id="themes" class="themes">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Themes</span>
+      <h2>Pick a palette. <span style="color:var(--dim)">This page will follow.</span></h2>
+      <p class="lead">Flyt ships with Krets, its own theme with rotating backgrounds, plus a handful of beloved palettes. Or build one from up to four of your own photos.</p>
+      <p class="lead" style="font-size:1rem">Go on, tap one. That is exactly what happens on your Home screen.</p>
+    </div>
+    <div class="swatches" id="swatches" role="group" aria-label="Preview this page in a Flyt theme"></div>
+  </div>
+</section>
+
+<section class="hand">
+  <div class="wrap">
+    <div class="intro">
+      <span class="eyebrow">Made for your hand</span>
+      <h2>Flyt adapts to your hand.<br><span style="color:var(--dim)">Not the other way around.</span></h2>
+    </div>
+    <article class="card"><div class="glyph" aria-hidden="true">✋</div><h3>Left or right</h3><p>Mirror the directions for your left hand with one switch.</p></article>
+    <article class="card"><div class="glyph" aria-hidden="true">◎</div><h3>Start anywhere</h3><p>The radial opens where your thumb lands. The direction is what you learn, not a spot on the glass.</p></article>
+    <article class="card"><div class="glyph" aria-hidden="true">◔</div><h3>Your geometry</h3><p>Half or full circle, how many directions, how far to drag. Tuned to your thumb's reach.</p></article>
+    <article class="card"><div class="glyph" aria-hidden="true">◌</div><h3>Fades as you learn</h3><p>Guidance shrinks once a direction is familiar, so the screen stays calm.</p></article>
+  </div>
+</section>
+
+<section class="quiet">
+  <div class="wrap">
+    <span class="eyebrow">Quiet by design</span>
+    <p class="big">No account. No ads. No analytics. <span>Your settings and what Flyt learns stay on your phone.</span></p>
+    <p class="lead" style="margin-inline:auto">Flyt only goes online when you ask it to fetch a theme from GitHub. The source is open under the GPL, so you can check.</p>
+    <p><a href="privacy.html">Read the privacy policy</a></p>
+  </div>
+</section>
+
+<section id="get" class="get">
+  <div class="wrap">
+    <div class="intro">
+      <span class="eyebrow">Get Flyt</span>
+      <h2>Same app. Two ways to get it.</h2>
+      <p class="lead">Both are the official app, signed with the same key, so you can switch between them without losing your setup.</p>
+    </div>
+    <article class="card">
+      <h3>Google Play</h3>
+      <p class="price">NOK 59 <small>once</small></p>
+      <ul>
+        <li>Installs and updates automatically</li>
+        <li>Supports further development</li>
+        <li>No subscription, no in-app purchases</li>
+      </ul>
+      <div class="buttons"><a class="btn primary" href="#get" aria-disabled="true">Coming soon to Google Play</a></div>
+    </article>
+    <article class="card">
+      <h3>GitHub</h3>
+      <p class="price">Free <small>forever</small></p>
+      <ul>
+        <li>Signed APK with checksum on every release</li>
+        <li>Update by hand, or with <a href="https://github.com/ImranR98/Obtainium">Obtainium</a></li>
+        <li>Full source under GPL-3.0-or-later</li>
+      </ul>
+      <div class="buttons"><a class="btn" href="https://github.com/r4bi3s/flyt/releases">Download APK</a><a class="btn" href="https://github.com/r4bi3s/flyt">Source</a></div>
+      <p class="fp">Signing certificate SHA-256<br>02:18:7F:EB:E5:09:58:A7:AF:E8:97:7F:E9:BB:75:8D:95:E4:19:32:C4:2C:6D:EE:85:7D:32:FB:C9:61:BF:B9</p>
+    </article>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Heimlager · Flyt is free software (GPL-3.0-or-later)</span>
+    <nav>
+      <a href="https://github.com/r4bi3s/flyt">Source</a>
+      <a href="https://github.com/r4bi3s/flyt/issues">Support</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="flyt.js"></script>
+</body>
+</html>

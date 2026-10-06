@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flyt privacy policy</title>
+<meta name="description" content="Flyt has no account, ads or analytics. What the app accesses on your phone, when it uses the network, and what it never does.">
+<meta name="theme-color" content="#101d25">
+<link rel="icon" href="img/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="./">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18" fill="none" stroke="var(--accent)" stroke-width="2.6"/><circle cx="24" cy="24" r="11" fill="none" stroke="var(--muted)" stroke-width="1.6"/><circle cx="36" cy="10" r="3.2" fill="var(--warm)"/><rect x="21" y="21" width="6" height="6" fill="var(--accent)"/></svg>
+      Flyt
+    </a>
+    <nav><a class="cta-link" href="./">Back to Flyt</a></nav>
+  </div>
+</header>
+
+<main class="wrap prose">
+  <span class="eyebrow">Privacy policy</span>
+  <h1>Flyt keeps your phone yours.</h1>
+  <p class="lead">Flyt has no account, no ads, no analytics and no server of its own. It does not collect, sell or share personal data. This page explains exactly what the app touches on your phone and the one situation where it uses the network.</p>
+  <p><small>Effective 6 October 2026. Applies to the Flyt Android app (package <span class="mono">no.heimflyt.launcher</span>), whether installed from Google Play or GitHub.</small></p>
+
+  <h2>What stays on your phone</h2>
+  <p>Your radial bindings and tuning, tags, which apps you open most (used to order small tags), Search settings and themes are stored only in Flyt's private app storage. Flyt does not back them up to the cloud, and they are deleted when you uninstall the app.</p>
+
+  <h2>Permissions and why</h2>
+  <table>
+    <tr><th>Permission</th><th>Used for</th><th>When</th></tr>
+    <tr><td>Contacts</td><td>Showing matching contacts in Search, so you can call or open them.</td><td>Only after you turn on contact results and grant access. Contacts are read on the phone and never leave it.</td></tr>
+    <tr><td>Camera</td><td>Turning the flashlight on and off. Flyt never takes pictures or video.</td><td>Only when you use the Flashlight action.</td></tr>
+    <tr><td>Internet</td><td>Fetching a theme from a GitHub link you enter.</td><td>Only when you inspect or install a theme. See below.</td></tr>
+    <tr><td>Set wallpaper</td><td>Using your Flyt theme image as the Android wallpaper.</td><td>Only if you turn on that option.</td></tr>
+  </table>
+  <p>Flyt sees the list of installed apps because that is what a launcher shows. That list is used on the phone only. Photos for your own themes are chosen with Android's photo picker, which gives Flyt only the images you select. Flyt re-encodes them and removes camera metadata such as location.</p>
+
+  <h2>The network, precisely</h2>
+  <p>Flyt connects to the internet only when you ask it to inspect or install a theme from a GitHub link. It then talks to GitHub (<span class="mono">api.github.com</span> and <span class="mono">raw.githubusercontent.com</span>) over HTTPS and downloads the theme's colours and images. GitHub receives the usual request information, such as your IP address and that the request comes from Flyt; see <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>. Flyt sends no personal data and has no background network activity.</p>
+
+  <h2>Sharing themes</h2>
+  <p>If you export or share a theme, Flyt creates a file and hands it to the app you choose through Android's share sheet. Nothing is uploaded by Flyt itself.</p>
+
+  <h2>Children</h2>
+  <p>Flyt is a general-purpose launcher and does not knowingly collect data from anyone, including children.</p>
+
+  <h2>Changes and contact</h2>
+  <p>If this policy changes, the new version will be published on this page with a new date. Flyt is published by Heimlager. Questions are welcome as an <a href="https://github.com/r4bi3s/flyt/issues">issue on GitHub</a>.</p>
+  <p>The source code is open under GPL-3.0-or-later, so all of the above can be checked in the <a href="https://github.com/r4bi3s/flyt">repository</a>.</p>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Heimlager</span>
+    <nav><a href="./">Flyt</a><a href="https://github.com/r4bi3s/flyt">Source</a></nav>
+  </div>
+</footer>
+<script src="flyt.js"></script>
+</body>
+</html>
