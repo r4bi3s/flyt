@@ -4,14 +4,18 @@
 # Afterwards store both keystores in Bitwarden as described in RELEASING.md.
 set -euo pipefail
 
+[[ -t 0 ]] || { echo "Run this in an ordinary terminal; keytool must read the passwords from you." >&2; exit 1; }
+
 out=$(mktemp -d /dev/shm/flyt-keys.XXXXXX)
 chmod 700 "$out"
+trap '[[ -f "$out/flyt-upload.jks" ]] || rm -rf "$out"' EXIT
 dname="CN=Flyt, O=Heimlager, C=NO"
 
 for key in app-signing upload; do
   echo "== $key key: choose a strong password (generate it in Bitwarden)"
   keytool -genkeypair -keystore "$out/flyt-$key.jks" -storetype PKCS12 -alias "flyt-$key" \
     -keyalg RSA -keysize 4096 -validity 36500 -dname "$dname"
+  [[ -f "$out/flyt-$key.jks" ]] || { echo "No $key keystore was created; nothing kept." >&2; exit 1; }
 done
 
 mkdir -p "$HOME/lunni-keys"
