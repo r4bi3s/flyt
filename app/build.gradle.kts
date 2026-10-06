@@ -11,7 +11,7 @@ android {
         applicationId = "no.heimflyt.launcher"
         minSdk = 26
         targetSdk = 36
-        versionCode = 28
+        versionCode = 29
         versionName = "0.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -214,9 +214,10 @@ fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (Rad
     val signature = rememberZoneSignature()
     LaunchedEffect(themesLoaded, signature, active?.gen, themeLoadFailed) {
         if (themesLoaded && signature != null && active == null && !themeLoadFailed) {
-            app.themes.apply("bundled:krets", no.heimflyt.launcher.theme.store.BackgroundChoice(no.heimflyt.launcher.theme.store.BackgroundKind.IMAGE, 0),
+            val first = no.heimflyt.launcher.theme.BundledThemes.find(no.heimflyt.launcher.theme.BundledThemes.DEFAULT_ID)!!
+            app.themes.apply(first.id, no.heimflyt.launcher.theme.store.BackgroundChoice(no.heimflyt.launcher.theme.store.BackgroundKind.IMAGE, 0),
                 no.heimflyt.launcher.theme.store.Framing(), no.heimflyt.launcher.theme.store.Strength.BALANCED, signature,
-                extras = listOf(1, 2).map { no.heimflyt.launcher.theme.store.ImageSlot(it, no.heimflyt.launcher.theme.store.Framing()) },
+                extras = (1 until first.images.size).map { no.heimflyt.launcher.theme.store.ImageSlot(it, no.heimflyt.launcher.theme.store.Framing()) },
                 mode = no.heimflyt.launcher.theme.store.BackgroundMode.ROTATE)
         }
     }

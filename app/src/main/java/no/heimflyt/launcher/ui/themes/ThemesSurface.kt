@@ -147,7 +147,7 @@ private fun loadEntries(app: HeimflytApplication): List<ThemeEntry> {
     val bundled = BundledThemes.all.mapNotNull { b ->
         val r = app.themes.bundled.load(b.id) ?: return@mapNotNull null
         ThemeEntry(b.id, b.name, r.record.light, TokenMapper.map(r.palette), r, false,
-            if (b.slug == "krets") BackgroundChoice(BackgroundKind.IMAGE, 0) else BackgroundChoice(b.ground), "included")
+            if (b.images.isNotEmpty()) BackgroundChoice(BackgroundKind.IMAGE, 0) else BackgroundChoice(b.ground), "included")
     }
     return installed + bundled
 }
@@ -175,7 +175,7 @@ private fun rememberPreview(app: HeimflytApplication, entry: ThemeEntry, choice:
                 if (thumbOnly && choice.kind == BackgroundKind.IMAGE) {
                     // Gallery cards use the install-time thumbnail; they never decode full backgrounds.
                     val stored = record.record.backgrounds.getOrNull(choice.index)
-                    if (entry.id == "bundled:krets" && stored != null)
+                    if (BundledThemes.imagesInAssets(entry.id) && stored != null)
                         app.assets.open(stored.file).use { BitmapFactory.decodeStream(it, null, BitmapFactory.Options().apply { inSampleSize = 4 }) }
                     else record.dir?.let { d -> stored?.thumb?.let { BitmapFactory.decodeFile(File(d, it).path) } }
                 } else app.themes.processor.preview(record, ThemeChoice(entry.id, record.rev, choice, framing, strength), tokens, sig, width)
@@ -358,7 +358,7 @@ fun ThemesGallery(app: HeimflytApplication, onOpen: (String) -> Unit, onCreate: 
                 items(installed, key = { it.id }) { ThemeCard(app, it, active?.choice?.recordId, active?.choice, sig) { onOpen(it.id) } }
             }
             item(span = { GridItemSpan(2) }) { SectionLabel("included") }
-            items(entries.filterNot { it.installed }, key = { it.id }) { ThemeCard(app, it, active?.choice?.recordId ?: "bundled:krets", active?.choice, sig) { onOpen(it.id) } }
+            items(entries.filterNot { it.installed }, key = { it.id }) { ThemeCard(app, it, active?.choice?.recordId ?: no.heimflyt.launcher.theme.store.ThemeStore.FALLBACK_ID, active?.choice, sig) { onOpen(it.id) } }
             item(span = { GridItemSpan(2) }) { Spacer(Modifier.height(Space.l)) }
         }
         // Create is primary: Android's Photo Picker, no media permission; nothing leaves the phone.
@@ -484,14 +484,14 @@ fun ThemeDetail(app: HeimflytApplication, id: String, onEdit: (String) -> Unit, 
             Spacer(Modifier.weight(1f))
             RemoveAction(app, entry, sig, onBack); return@Column
         }
-        val isActive = active?.choice?.recordId == id || (active == null && id == "bundled:krets")
+        val isActive = active?.choice?.recordId == id || (active == null && id == no.heimflyt.launcher.theme.store.ThemeStore.FALLBACK_ID)
         val start = active?.choice?.takeIf { it.recordId == id }
         var background by remember(id, start) { mutableStateOf(start?.background ?: entry.defaultBackground) }
         var framing by remember(id, start) { mutableStateOf(start?.framing ?: entry.createdFraming ?: Framing()) }
         var strength by remember(id, start) { mutableStateOf(start?.strength ?: Strength.BALANCED) }
         val recipe = (record.record.origin as? ThemeOrigin.Created)?.recipe
         var bgMode by remember(id, start) { mutableStateOf(start?.mode ?: recipe?.backgroundMode ?:
-            if (id == "bundled:krets") no.heimflyt.launcher.theme.store.BackgroundMode.ROTATE else no.heimflyt.launcher.theme.store.BackgroundMode.FIXED) }
+            if ((BundledThemes.find(id)?.images?.size ?: 0) > 1) no.heimflyt.launcher.theme.store.BackgroundMode.ROTATE else no.heimflyt.launcher.theme.store.BackgroundMode.FIXED) }
         val imageCount = record.record.backgrounds.size
         // Rotate/Random use the chosen image first, then the following ones (up to four), each with its own composition.
         fun extrasFor(bg: BackgroundChoice): List<no.heimflyt.launcher.theme.store.ImageSlot> =

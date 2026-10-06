@@ -38,7 +38,7 @@ object AndroidWallpaper {
         val t0 = SystemClock.elapsedRealtime()
         val id = runCatching {
             val options = BitmapFactory.Options().apply { inPreferredConfig = Bitmap.Config.ARGB_8888 }
-            val src = (if (record.record.id == "bundled:krets")
+            val src = (if (no.heimflyt.launcher.theme.BundledThemes.imagesInAssets(record.record.id))
                 context.assets.open(stored.file).use { BitmapFactory.decodeStream(it, null, options) }
             else store.pin(record.dir).use { BitmapFactory.decodeFile(File(record.dir, stored.file).path, options) })
                 ?: error("unreadable")

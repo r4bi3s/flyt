@@ -71,6 +71,20 @@ class PalettePipelineTest {
         assertEquals("bundled:krets", no.heimflyt.launcher.theme.store.ThemeStore.FALLBACK_ID)
     }
 
+    @Test fun blaatimeIsTheDefaultAndItsPaletteAndImagesAreShipped() {
+        val bytes = File("src/main/assets/themes/blaatime/colors.toml").readBytes()
+        val palette = OmarchyResolver.palette(OmarchyResolver.resolve(ColorsToml.parse(bytes).values, false)).palette
+        assertEquals(emptyList<String>(), TokenMapper.map(palette).violations())
+        val theme = no.heimflyt.launcher.theme.BundledThemes.find(no.heimflyt.launcher.theme.BundledThemes.DEFAULT_ID)!!
+        assertEquals("blaatime", theme.slug)
+        assertEquals(4, theme.images.size)
+        for (t in no.heimflyt.launcher.theme.BundledThemes.all) for (img in t.images) {
+            val file = File("src/main/assets", img.file)
+            val sha = java.security.MessageDigest.getInstance("SHA-256").digest(file.readBytes()).joinToString("") { "%02x".format(it) }
+            assertEquals(img.file, img.sha256, sha)
+        }
+    }
+
     @Test fun normalisedPaletteRoundTrips() {
         for (dir in fixtures) {
             val p = OmarchyResolver.palette(OmarchyResolver.resolve(raw(dir), File(dir, "light.mode").exists())).palette

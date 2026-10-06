@@ -35,12 +35,29 @@ import no.heimflyt.launcher.theme.store.ThemeStore
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 
-/** An included theme: an Omarchy first-party palette (MIT) with a Heimflyt Ground; no third-party images (THEME_ARCHITECTURE.md §9). */
-class BundledTheme(val slug: String, val name: String, val ground: BackgroundKind, val credit: String) { val id get() = "bundled:$slug" }
+/**
+ * An included theme: a palette with a Flyt Ground, and for Flyt's own themes owner-created [images] read from assets.
+ * Third-party palettes never come with images (THEME_ARCHITECTURE.md §9).
+ */
+class BundledTheme(val slug: String, val name: String, val ground: BackgroundKind, val credit: String,
+                   val images: List<StoredBackground> = emptyList()) { val id get() = "bundled:$slug" }
+
+private fun asset(slug: String, file: String, label: String, sha256: String) =
+    StoredBackground("themes/$slug/$file", "", label, 1008, 1792, sha256, false)
 
 object BundledThemes {
     val all = listOf(
-        BundledTheme("krets", "Krets", BackgroundKind.KRETS, "Original Krets palette and owner-created images"),
+        BundledTheme("blaatime", "Blåtime", BackgroundKind.DUSK, "Original Blåtime palette and owner-created images", listOf(
+            asset("blaatime", "fjord.jpg", "Fjord", "312d2bd5d59f9b6d9e52dafb5d055327e049e5edf6e80a7b44d182cc9696ec28"),
+            asset("blaatime", "fiskevaer.jpg", "Fiskevær", "961e02a97af3434300d7d32606522c3fd71303e0bad81f9c194b5a2dc2db8ea8"),
+            asset("blaatime", "trikk.jpg", "Trikk", "a4f4e9b7af22f031e4ea6037d2f67fc66ee5d21d8716a314221ce9441fe81b8c"),
+            asset("blaatime", "fjell.jpg", "Fjell", "99d53f1296c4a145df09e75d9dca771d0eacfbd2a200cab16588b9b366a80eb6"),
+        )),
+        BundledTheme("krets", "Krets", BackgroundKind.KRETS, "Original Krets palette and owner-created images", listOf(
+            asset("krets", "blue.jpg", "Blue", "4c17da0366fe71087463565beda6502af28a6d24f92f37a402669ecab3d7cfb6"),
+            asset("krets", "plum.jpg", "Plum", "1650d13ceb065b1b1a0fd3b191c409bd9bbad6291d836474c4e344bbcf5804a5"),
+            asset("krets", "jade.jpg", "Jade", "8b386b7b6fd48fe3bb74542af740fb5f6a8ea4e78515ac516fde0bfb4e8f996c"),
+        )),
         BundledTheme("tokyo-night", "Tokyo Night", BackgroundKind.DUSK, "Tokyo Night by enkia (MIT)"),
         BundledTheme("matte-black", "Matte Black", BackgroundKind.PLAIN, "Matte Black from Omarchy (MIT)"),
         BundledTheme("gruvbox", "Gruvbox", BackgroundKind.CONTOUR, "Gruvbox Material by sainnhe (MIT)"),
@@ -49,7 +66,11 @@ object BundledThemes {
         BundledTheme("flexoki-light", "Flexoki Light", BackgroundKind.DUSK, "Flexoki by Steph Ango (MIT)"),
         BundledTheme("catppuccin-latte", "Catppuccin Latte", BackgroundKind.CONTOUR, "Catppuccin by the Catppuccin org (MIT)"),
     )
+    /** What a new installation starts with. Krets stays the compiled fallback (ThemeStore.FALLBACK_ID). */
+    const val DEFAULT_ID = "bundled:blaatime"
     fun find(id: String) = all.firstOrNull { it.id == id }
+    /** Bundled themes read their images from assets; every other theme from its generation directory. */
+    fun imagesInAssets(id: String) = find(id)?.images?.isNotEmpty() == true
 }
 
 /** Reads bundled palettes from `assets/themes/<slug>/colors.toml` on first use (Themes, apply), never on Home. */
@@ -61,12 +82,7 @@ class AssetBundledSource(private val assets: AssetManager) : BundledSource {
         return cache[id] ?: runCatching {
             val bytes = assets.open("themes/${theme.slug}/colors.toml").use { it.readBytes() }
             val palette = OmarchyResolver.palette(OmarchyResolver.resolve(ColorsToml.parse(bytes).values, false)).palette
-            val backgrounds = if (theme.slug == "krets") listOf(
-                StoredBackground("themes/krets/blue.jpg", "", "Blue", 1008, 1792, "4c17da0366fe71087463565beda6502af28a6d24f92f37a402669ecab3d7cfb6", false),
-                StoredBackground("themes/krets/plum.jpg", "", "Plum", 1008, 1792, "1650d13ceb065b1b1a0fd3b191c409bd9bbad6291d836474c4e344bbcf5804a5", false),
-                StoredBackground("themes/krets/jade.jpg", "", "Jade", 1008, 1792, "8b386b7b6fd48fe3bb74542af740fb5f6a8ea4e78515ac516fde0bfb4e8f996c", false),
-            ) else emptyList()
-            LoadedRecord(ThemeRecord(id, theme.name, ThemeOrigin.Bundled, palette.light, PaletteSource.BUNDLED, backgrounds, null, null, emptyList(), null, theme.ground),
+            LoadedRecord(ThemeRecord(id, theme.name, ThemeOrigin.Bundled, palette.light, PaletteSource.BUNDLED, theme.images, null, null, emptyList(), null, theme.ground),
                 ThemeStore.BUNDLED_REV, palette, null)
         }.getOrNull()?.also { cache[id] = it }
     }

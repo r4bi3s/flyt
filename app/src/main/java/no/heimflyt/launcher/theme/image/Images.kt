@@ -115,7 +115,7 @@ class BackgroundProcessor(private val files: ThemeFiles, private val assets: and
             BackgroundKind.IMAGE -> {
                 val stored = record.record.backgrounds.getOrNull(bg.index) ?: return null
                 val options = BitmapFactory.Options().apply { inPreferredConfig = Bitmap.Config.ARGB_8888 }
-                val src = if (record.record.id == "bundled:krets")
+                val src = if (no.heimflyt.launcher.theme.BundledThemes.imagesInAssets(record.record.id))
                     assets?.open(stored.file)?.use { BitmapFactory.decodeStream(it, null, options) }
                 else record.dir?.let { BitmapFactory.decodeFile(File(it, stored.file).path, options) }
                 if (src == null) return null
