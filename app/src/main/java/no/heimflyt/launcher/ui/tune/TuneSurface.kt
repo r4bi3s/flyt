@@ -321,7 +321,7 @@ private fun LearningState(settings: LocalSettings, a: TuneActions) {
         QuietButton("Cancel") { confirmReset = false }
         QuietButton("Reset", color = c.dangerInk) { a.onResetLearning(); confirmReset = false }
     }
-    Text("Learning is local and changes only when you finish a gesture. Rehearsal directions launch nothing.", style = t.type.caption, modifier = Modifier.padding(Space.xs))
+    Text("Learning is local and changes only when you finish a gesture. Unassigned directions open nothing.", style = t.type.caption, modifier = Modifier.padding(Space.xs))
 }
 
 @Composable
@@ -369,6 +369,13 @@ private fun AdvancedPage(settings: LocalSettings, a: TuneActions) {
     var p by remember(settings.tuning) { mutableStateOf(settings.tuning) }
     @Composable fun slider(label: String, value: Float, range: ClosedFloatingPointRange<Float>, unit: String, set: (Float) -> TuningParams) =
         TuneSlider("$label: ${value.toInt()} $unit", value, range, { p = set(it) }, { a.onTuning(p) })
+    Group("Learning") {
+        LearningState(settings, a)
+        slider("Hinted after clean uses", p.hintAfter.toFloat(), 1f..50f, "") { p.copy(hintAfter = it.toInt()) }
+        slider("Minimal after clean uses", p.minimalAfter.toFloat(), 2f..100f, "") { p.copy(minimalAfter = it.toInt()) }
+        SectionLabel("guidance when fading is off")
+        Segmented(listOf("Minimal" to 0, "Hints" to 1, "Full" to 2), p.initialGuidance, { p = p.copy(initialGuidance = it); a.onTuning(p) })
+    }
     Group("Home circle") {
         slider("Distance from side", p.edgeDistance, 48f..260f, "dp") { p.copy(edgeDistance = it) }
         slider("Distance from bottom", p.bottomDistance, 64f..400f, "dp") { p.copy(bottomDistance = it) }
@@ -388,13 +395,6 @@ private fun AdvancedPage(settings: LocalSettings, a: TuneActions) {
         Note("Effective center delay: ${(p.hesitationDelay * (ViewConfiguration.getLongPressTimeout() / 500f).coerceIn(1f, 4f)).toLong()} ms (system touch-and-hold setting)")
         slider("Slow-motion dwell", p.dwellTime.toFloat(), 100f..1500f, "ms") { p.copy(dwellTime = it.toLong()) }
         slider("Dwell speed threshold", p.dwellSpeed, 5f..200f, "dp/s") { p.copy(dwellSpeed = it) }
-    }
-    Group("Learning") {
-        LearningState(settings, a)
-        slider("Hinted after clean uses", p.hintAfter.toFloat(), 1f..50f, "") { p.copy(hintAfter = it.toInt()) }
-        slider("Minimal after clean uses", p.minimalAfter.toFloat(), 2f..100f, "") { p.copy(minimalAfter = it.toInt()) }
-        SectionLabel("guidance when fading is off")
-        Segmented(listOf("Minimal" to 0, "Hints" to 1, "Full" to 2), p.initialGuidance, { p = p.copy(initialGuidance = it); a.onTuning(p) })
     }
     Group("Debug and reset") {
         ToggleRow("Debug geometry", p.debug, subtitle = "Readout on Home and outlined touch targets. Also shows Experiments in Tune.") { p = p.copy(debug = it); a.onTuning(p) }
