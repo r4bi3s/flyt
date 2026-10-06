@@ -45,7 +45,10 @@ def plan():
 
 
 def token() -> str:
-    mine = subprocess.run(["gcloud", "auth", "print-access-token"], capture_output=True, text=True, check=True).stdout.strip()
+    got = subprocess.run(["gcloud", "auth", "print-access-token"], capture_output=True, text=True)
+    if got.returncode != 0:
+        sys.exit(f"gcloud has no valid login. Run: gcloud auth login\n\n{got.stderr.strip()}")
+    mine = got.stdout.strip()
     req = urllib.request.Request(
         f"https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/{SERVICE_ACCOUNT}:generateAccessToken",
         data=json.dumps({"scope": ["https://www.googleapis.com/auth/androidpublisher"]}).encode(),
