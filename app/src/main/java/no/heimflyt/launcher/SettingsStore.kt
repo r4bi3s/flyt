@@ -74,6 +74,11 @@ data class HomePrefs(
     val h7Launch: Boolean = true,
     /** Owner-tuned fan geometry; persisted only where it differs from the default. */
     val h7Fan: Fan = Fan(),
+    /**
+     * The first-run introduction has been shown or skipped. False for new installations; an installation that saved Home
+     * preferences before the introduction existed decodes as true, so it never interrupts an existing setup.
+     */
+    val introDone: Boolean = false,
 )
 
 enum class HomeStatusMode(val id: String, val label: String) {
@@ -304,7 +309,7 @@ class SettingsStore(context: Context) {
             put("hapticDown",p.hapticDown); put("hapticSelection",p.hapticSelection); put("hapticCommit",p.hapticCommit); put("debug",p.debug)
             put("anywhere",p.anywhere); put("adaptive",p.adaptive); put("hintAfter",p.hintAfter); put("minimalAfter",p.minimalAfter)
         }).put("home",JSONObject().apply {
-            put("cleanDispatches",s.home.cleanDispatches); put("hints",s.home.hints.id); put("appsHintSeen",s.home.appsHintSeen); put("searchAtBottom",s.home.searchAtBottom); put("statusMode",s.home.statusMode.id); put("searchWord",s.home.searchWord)
+            put("introDone",s.home.introDone); put("cleanDispatches",s.home.cleanDispatches); put("hints",s.home.hints.id); put("appsHintSeen",s.home.appsHintSeen); put("searchAtBottom",s.home.searchAtBottom); put("statusMode",s.home.statusMode.id); put("searchWord",s.home.searchWord)
             if(!s.home.appsOnThumb) put("appsOnThumb",false)
             s.home.weekNumber?.let { put("weekNumber",it) }
             if(s.home.h7) put("h7",true); if(!s.home.h7Guide) put("h7Guide",false); if(s.home.h7Launch) put("h7Launch",true)
@@ -361,7 +366,7 @@ class SettingsStore(context: Context) {
             h.optBoolean("searchAtBottom",true), HomeStatusMode.from(h.optString("statusMode")), h.optBoolean("searchWord",true), h.optBoolean("appsOnThumb",true),
             h.optBoolean("h7",false), h.optBoolean("h7Guide",true), h.optBoolean("h7Launch",false),
             Fan().let { d -> Fan(h.optDouble("h7Size",d.size.toDouble()).toFloat(), h.optDouble("h7Beyond",d.beyond.toDouble()).toFloat(),
-                h.optDouble("h7Spread",d.spread.toDouble()).toFloat()).safe() })
+                h.optDouble("h7Spread",d.spread.toDouble()).toFloat()).safe() }, introDone = h.optBoolean("introDone", true))
         val tagGroups = root.optJSONObject("tagGroups")?.let { groups ->
             groups.keys().asSequence().mapNotNull { tag ->
                 if (normalizeTagName(tag) != tag) null else groups.optJSONObject(tag)?.let {

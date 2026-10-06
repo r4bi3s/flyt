@@ -52,6 +52,12 @@ import no.heimflyt.launcher.ui.components.*
 import androidx.compose.material3.Text
 import no.heimflyt.launcher.ui.tune.TuneActions
 import no.heimflyt.launcher.ui.tune.TunePage
+import no.heimflyt.launcher.ui.home.slotLabel
+import no.heimflyt.launcher.ui.intro.IntroActions
+import no.heimflyt.launcher.ui.intro.IntroApp
+import no.heimflyt.launcher.ui.intro.IntroOverlay
+import no.heimflyt.launcher.ui.intro.IntroStep
+import no.heimflyt.launcher.ui.intro.IntroTags
 import no.heimflyt.launcher.ui.tune.TuneSurface
 
 @OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
@@ -78,6 +84,9 @@ fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (Rad
     var openedGroup by remember { mutableStateOf<HomeAction.Group?>(null) }
     var gestureChildren by remember { mutableStateOf<Map<Int, H7.Children>>(emptyMap()) }
     var showDirections by remember { mutableStateOf(false) }
+    // First-run introduction over Home: null when not showing. Practice steps keep Home's gesture live but open nothing.
+    var introStep by remember { mutableStateOf<IntroStep?>(null) }
+    var introFeedback by remember { mutableStateOf<String?>(null) }
     var createSource by remember { mutableStateOf<CreateSource?>(null) }
     // Home shows failures only; ordinary selections and cancels produce no text.
     var homeStatus by remember { mutableStateOf<String?>(null) }
@@ -149,6 +158,7 @@ fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (Rad
     BackHandler {
         touch?.cancel(CancelReason.BACK)
         when {
+            introStep != null -> { introStep = null; introFeedback = null; app.settings.updateHome { it.copy(introDone = true) } }
             pickerSlot != null -> { pickerSlot = null; page = TunePage.DIRECTIONS.route }
             page.startsWith("settings/") -> page = TunePage.INDEX.route
             page.startsWith("themes/") -> page = "themes"
@@ -171,6 +181,9 @@ fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (Rad
     }
     // Drawing and gestures consume prepared children. Automatic tags refresh after the first frame or catalogue changes.
     // Bounded package/profile icon lookups run after the first frame, on configuration or package changes.
+    LaunchedEffect(settingsLoaded, settings.home.introDone) {
+        if (settingsLoaded && !settings.home.introDone && introStep == null) { home(); introStep = IntroStep.WELCOME }
+    }
     var h7Children by remember { mutableStateOf<Map<Int, H7.Children>>(emptyMap()) }
     val h7Groups = H7.groups(settings)
     val automaticBindings = settings.bindings.filterIsInstance<HomeAction.Tag>().map { it.name }
@@ -297,7 +310,9 @@ fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (Rad
                 onTune = { page = TunePage.INDEX.route }, onError = { homeStatus = it })
             Box(Modifier.fillMaxSize().windowInsetsPadding(safe)) {
                 when {
-                    page == "home" -> HomeSurface(settings, settingsLoaded,
+                    // While practising, the ring always shows its labels, even for someone who hid Home's hints.
+                    page == "home" -> HomeSurface(if (introStep == IntroStep.PRACTICE || introStep == IntroStep.CANCEL)
+                            settings.copy(home = settings.home.copy(hints = HomeHints.SHOW)) else settings, settingsLoaded,
                         status = homeStatus ?: settings.notice?.takeIf { !noticeDismissed }
                             ?: "Theme couldn't be loaded. Using the Krets theme.".takeIf { themeLoadFailed && !noticeDismissed },
                         h7Readout = H7.readout(settings, h7Children),
@@ -308,7 +323,23 @@ fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (Rad
                         onBegin = { signalPaused = true; gestureBindings = settings.bindings.toList(); gestureChildren = h7Children; homeStatus = null },
                         onResult = { result, frame ->
                             signalPaused = false
-                            when (result) {
+                            val practising = introStep == IntroStep.PRACTICE || introStep == IntroStep.CANCEL
+                            if (practising) {
+                                val target = introTargetSlot(settings)
+                                val chosen = (result as? GestureResult.Selected)?.let { slotLabel(gestureBindings.getOrElse(it.sector) { i -> HomeAction.Probe(i + 1) }) }
+                                introFeedback = when {
+                                    result == GestureResult.Tap -> "That was a tap. Press, then drag before you let go."
+                                    introStep == IntroStep.PRACTICE && result is GestureResult.Selected && result.child < 0 && result.sector == target ->
+                                        { introStep = IntroStep.CANCEL; null }
+                                    introStep == IntroStep.PRACTICE && result is GestureResult.Selected ->
+                                        "That was $chosen. Try toward ${introTargetLabel(settings)}."
+                                    introStep == IntroStep.CANCEL && result is GestureResult.Cancelled && result.reason == CancelReason.CENTER ->
+                                        { introStep = IntroStep.TAGS; null }
+                                    introStep == IntroStep.CANCEL && result is GestureResult.Selected ->
+                                        "That chose $chosen. Come back to the middle before you let go."
+                                    else -> "Drag a little further from where you pressed, then let go."
+                                }
+                            } else when (result) {
                                 // H7: a child release opens its app only with "Launch child apps" on; it never teaches level-1 learning.
                                 is GestureResult.Selected -> if (result.child < 0) {
                                     // Learning is a consequence of the finished gesture only; dispatch is the success proxy.
@@ -379,6 +410,7 @@ fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (Rad
                         onTags = { tagReturn = TunePage.INDEX.route; page = "tags" },
                         onResetLearning = { app.settings.resetFamiliarity() }, onHome = { app.settings.updateHome(it) },
                         onOpenHomeSettings = openHomeSettings, onShowDirections = { home(); showDirections = true },
+                        onIntro = { home(); introFeedback = null; introStep = IntroStep.WELCOME },
                         onNavigate = { page = it.route }, onThemes = { page = "themes" }, onTheme = { page = "themes/$it" },
                         onBack = { if (page == TunePage.INDEX.route) home() else page = TunePage.INDEX.route }))
                 }
@@ -388,6 +420,35 @@ fun HeimflytScreen(app: HeimflytApplication, homeEpoch: Int, registerTouch: (Rad
                 Text(group.name, style = Heimflyt.t.type.title)
                 group.children.forEach { child -> if (child != null) HRow(child.label(), onClick = { openedGroup = null; dispatch(child) }) }
             } }
+            if (page == "home") introStep?.let { step ->
+                val catalog by app.apps.catalog.collectAsStateWithLifecycle()
+                val suggestions = remember(step == IntroStep.TAGS, catalog) {
+                    if (step != IntroStep.TAGS) emptyList() else IntroTags.suggest(
+                        catalog.apps.map { IntroApp(it.key, it.label, it.info.applicationInfo.category) }, app.tags.names.toSet())
+                }
+                val free = settings.bindings.take(settings.tuning.sectorCount).count { it is HomeAction.Probe }
+                fun next() {
+                    introFeedback = null
+                    introStep = IntroStep.entries.getOrNull(step.ordinal + 1)
+                    if (introStep == null) app.settings.updateHome { it.copy(introDone = true) }
+                }
+                IntroOverlay(step, settings.tuning.leftHanded, introTargetLabel(settings), introFeedback, suggestions, free, IntroActions(
+                    onNext = ::next,
+                    onSkip = { introStep = null; introFeedback = null; app.settings.updateHome { it.copy(introDone = true) } },
+                    onHand = { left -> app.settings.update(tuning = settings.tuning.copy(leftHanded = left)) },
+                    onAddTags = { picked ->
+                        val bindings = settings.bindings.toMutableList()
+                        picked.forEach { s ->
+                            app.tags.create(s.name)
+                            s.apps.forEach { app.tags.set(it.key, s.name, true) }
+                            if (s.apps.size > IntroTags.RING) app.settings.setTagMode(s.name, TagRadialMode.MOST_USED)
+                            (0 until settings.tuning.sectorCount).firstOrNull { bindings[it] is HomeAction.Probe }?.let { bindings[it] = HomeAction.Tag(s.name) }
+                        }
+                        app.settings.update(bindings = bindings)
+                        app.refreshMostUsed()
+                        introStep = IntroStep.DONE
+                    }))
+            }
             if (showDirections) DirectionsSheet(settings.bindings, settings.tuning, homeLearning(settings.home.cleanDispatches, settings.home.hints),
                 onDispatch = { showDirections = false; if (it is HomeAction.Group) openedGroup = it else dispatch(it) },
                 onApps = { showDirections = false; page = "apps"; query = "" },
@@ -430,3 +491,9 @@ private fun DuskGround(modifier: Modifier) {
         }
     })
 }
+
+/** The practice step asks for the first assigned direction (Phone on a new installation). */
+private fun introTargetSlot(settings: LocalSettings) =
+    settings.bindings.take(settings.tuning.sectorCount).indexOfFirst { it !is HomeAction.Probe }.coerceAtLeast(0)
+
+private fun introTargetLabel(settings: LocalSettings) = slotLabel(settings.bindings.getOrElse(introTargetSlot(settings)) { HomeAction.Probe(1) })

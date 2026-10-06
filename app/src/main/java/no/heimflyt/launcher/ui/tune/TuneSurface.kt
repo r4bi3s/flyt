@@ -71,6 +71,7 @@ class TuneActions(
     val onEditGroup: (Int) -> Unit = {},
     val onEditTag: (String) -> Unit = {}, val onTags: () -> Unit = {},
     val onThemes: () -> Unit = {}, val onTheme: (String) -> Unit = {},
+    val onIntro: () -> Unit = {},
 )
 
 @Composable
@@ -92,7 +93,7 @@ fun TuneSurface(page: TunePage, settings: LocalSettings, app: HeimflytApplicatio
     }
 }
 
-private fun isDefaultHome(context: Context): Boolean {
+internal fun isDefaultHome(context: Context): Boolean {
     if (Build.VERSION.SDK_INT >= 29) return context.getSystemService(RoleManager::class.java)?.isRoleHeld(RoleManager.ROLE_HOME) == true
     val home = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)
     return context.packageManager.resolveActivity(home, android.content.pm.PackageManager.MATCH_DEFAULT_ONLY)?.activityInfo?.packageName == context.packageName
@@ -180,6 +181,7 @@ private fun HomePage(settings: LocalSettings, app: HeimflytApplication, a: TuneA
     val p = settings.tuning
     ToggleRow("Fade guidance as you learn", p.adaptive, subtitle = if (p.adaptive) "Help fades per direction as you learn it and returns when you hesitate."
         else "Guidance stays at the level chosen under Advanced.") { a.onTuning(p.copy(adaptive = it)) }
+    QuietButton("Show the introduction again", onClick = a.onIntro)
 }
 
 @Composable
