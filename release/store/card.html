@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- Title and end card for the social video, 1080×1920. ?title=…&sub=…&foot=… -->
+<style>
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; }
+  body { background: url(../../app/src/main/assets/themes/blaatime/fjord.jpg) center / cover; font-family: Inter, sans-serif; color: #eef2fb; }
+  .shade { position: absolute; inset: 0; background: linear-gradient(rgba(10,17,40,.88), rgba(10,17,40,.35) 55%, rgba(10,17,40,.75)); }
+  .text { position: absolute; left: 90px; right: 90px; top: 300px; }
+  .brand { display: flex; align-items: center; gap: 28px; font-size: 120px; font-weight: 700; letter-spacing: -0.03em; }
+  .brand svg { width: 116px; height: 116px; }
+  h1 { margin: 48px 0 0; font-size: 84px; line-height: 1.08; font-weight: 700; letter-spacing: -0.02em; }
+  h1 em { font-style: normal; color: #f0b45e; }
+  p { margin: 32px 0 0; font-size: 44px; line-height: 1.3; color: #c3cde8; }
+  .foot { position: absolute; left: 90px; right: 90px; bottom: 170px; font-size: 46px; font-weight: 600; color: #f0b45e; }
+</style>
+</head>
+<body>
+  <div class="shade"></div>
+  <div class="text">
+    <div class="brand"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="#f0b45e" stroke-width="2.6"/><circle cx="24" cy="24" r="11" fill="none" stroke="#3a4670" stroke-width="1.6"/><circle cx="36" cy="10" r="3.2" fill="#8cc8e6"/><rect x="21" y="21" width="6" height="6" fill="#f0b45e"/></svg>Flyt</div>
+    <h1 id="t"></h1>
+    <p id="s"></p>
+  </div>
+  <div class="foot" id="f"></div>
+  <script>
+    const q = new URLSearchParams(location.search);
+    document.getElementById("t").innerHTML = (q.get("title") || "").replace(/\*(.+?)\*/g, "<em>$1</em>");
+    document.getElementById("s").textContent = q.get("sub") || "";
+    document.getElementById("f").textContent = q.get("foot") || "";
+  </script>
+</body>
+</html>
